@@ -1,83 +1,39 @@
 import random
+from source import *
 
 C_TYPES_POSSIBLE = {'void': False, 'int': int, 'long': int, 'long long': int, 'float': float, 'double': float,
-                    'string': str, 'bool': bool}
+                    'string': str, 'bool': bool, 'char': 'char'}
 
-C_TYPES_DEFAULT = {int: 0, float: 0.0, bool: False, str: ''}
+C_TYPES_DEFAULT = {int: 0, float: 0.0, bool: False, str: '""', 'char': "''"}
 
-C_CONTAINERS_POSSIBLE = {'vector': list, '[': list, 'set': set, 'map': dict, 'queue': list, 'pair': tuple}
-
-BRACKETS = ('(', ')')
+C_CONTAINERS_POSSIBLE = {'vector', 'set', 'map', 'queue', 'pair'}
 
 
-def find_type_matches(line: str, types: dict):
-    if types == C_TYPES_POSSIBLE:
-        for c_type in types:
-            if c_type in line:
-                return c_type
-    elif types == C_CONTAINERS_POSSIBLE:
-        for c_type in types:
-            if c_type in line and any(c_simple_type in line for c_simple_type in C_TYPES_POSSIBLE):
-                return c_type
+def find_type_matches(line, types):
+    line_stripped = line.strip(CHARS_STRIP).split(' ')[0]
+    if '<' in line_stripped:
+        line_stripped = line_stripped[:line_stripped.index('<')].strip(CHARS_STRIP)
+    for c_type in types:
+        if c_type == line_stripped:
+            return c_type
     return None
 
 
 def get_type(line: str):
-    # специальный случай  с парами
-    c_pair = 'pair' if 'pair' in line else None
-    if c_pair:
-        raise Exception('Не работаю с двойными генериками')
-
     c_container = find_type_matches(line, C_CONTAINERS_POSSIBLE)
-    # костыль
     c_type = find_type_matches(line, C_TYPES_POSSIBLE)
-    result = c_pair or c_container or c_type
-    # if not result:
-    #     print('Не смогла распарсить тип: {}'.format(line))
-    return result
+    return c_container or c_type
 
 
 def parse_generic(line: str):
-    c_type_vector = get_type(line[line.index('<') + 1:line.rfind('>')])
+    c_type_vector = get_type(subline_between(line, BRACKETS_ANGLE))
     if not c_type_vector:
         raise Exception('Не смогла распарсить генерик')
     return c_type_vector
 
 
-def parse_array(line: str):
-    c_type_array = get_type(line[:line.index('[')])
-    if not c_type_array:
-        print('Не смогла распарсить массив ' + line)
-    return c_type_array
-
-
-def parse_double_generic(line: str):
-    """
-    type_definition = line[line.index('<') + 1:line.rfind('>')].split(',')
-    if len(type_definition) != 2:
-        raise Exception('Не смогла распарсить двойной генерик')
-    return get_type(type_definition[0]), get_type(type_definition[1])
-    """
-    raise Exception('Не работаю с двойными генериками')
-
-
-C_CONTAINERS_PARSERS = {'vector': parse_generic, '[': parse_array, 'set': parse_generic, 'map': parse_double_generic,
-                        'pair': parse_double_generic, 'queue': parse_generic}
-
-
-def array_to_str(type_array: str):
-    return type_array + '[]'
-
-
-def vector_to_str(type_vector: str):
-    return 'vector<{}>'.format(type_vector)
-
-
-def queue_to_str(type_vector: str):
-    return 'queue<{}>'.format(type_vector)
-
-
-C_CONTAINERS_TO_STR = {'vector': vector_to_str, '[': array_to_str, 'queue': queue_to_str}
+def generic_arguments_str(arguments):
+    return '.assign{}'.format(arguments)
 
 
 class CPrimitive:
@@ -98,8 +54,7 @@ class CPrimitive:
         if not isinstance(asker, CPrimitive):
             raise Exception('Не правильный вызов get_var')
         for c_var in reversed(self.vars):
-            if c_var.name == name:
-                # return c_var.get_link()
+            if hasattr(c_var, 'name') and c_var.name == name:
                 return c_var
         if self.handler is None:
             raise Exception('Не нашла запрошенную переменную ' + name)
@@ -120,8 +75,6 @@ class CPrimitive:
         return obj
 
     def __str__(self):
-        if not all([isinstance(self.vars, list), isinstance(self.code, list)]):
-            raise Exception('Что-то случилось с основными полями за время жизни функции')
         result = ''
         for c_var in self.vars:
             result += str(c_var) + ';\n'
@@ -137,7 +90,7 @@ class CBlock(CPrimitive):
         super().__init__(handler, cont, block[0])
 
     def __str__(self):
-        result = '{\n'
+        result = '\n{\n'
         for var in self.vars:
             result += str(var) + ';\n'
         for line in self.code:

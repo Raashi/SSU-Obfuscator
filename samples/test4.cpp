@@ -26,18 +26,20 @@ void heapify(vector<long>& h, int pos, int n, bool b)
 			else
 				break;
 		}
-		else if (2 * pos + 1 < n)
-		{
-			if (h[pos] < h[2 * pos + 1])
+		else { 
+			if (2 * pos + 1 < n)
 			{
-				swap(h[pos], h[2 * pos + 1]);
-				pos = 2 * pos + 1;
+				if (h[pos] < h[2 * pos + 1])
+				{
+					swap(h[pos], h[2 * pos + 1]);
+					pos = 2 * pos + 1;
+				}
+				else
+					break;
 			}
 			else
 				break;
 		}
-		else
-			break;
 		
 		counter++;
 	}
@@ -76,7 +78,4 @@ int main()
 	pyramyd_sort(h, n);
 
 	cout << counter << endl;
-
-	int a;
-	cin >> a;
 }

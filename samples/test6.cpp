@@ -8,6 +8,7 @@ bool checkPrime(int n)
 {
     int i;
     bool isPrime = true;
+
     for(i = 2; i <= n/2; ++i)
     {
         if(n % i == 0)
@@ -16,6 +17,7 @@ bool checkPrime(int n)
             break;
         }
     }
+
     return isPrime;
 }
 
@@ -24,8 +26,10 @@ int main()
     int n;
     int i;
     bool flag = false;
+
     cout << "Enter a positive  integer: ";
     cin >> n;
+
     for(i = 2; i <= n/2; ++i)
     {
         if (checkPrime(i))
@@ -37,8 +41,9 @@ int main()
             }
         }
     }
-    if (!flag) {
-        cout << n << " can't be expressed as sum of two prime numbers.";
-    }
+
+    if (!flag)
+      cout << n << " can't be expressed as sum of two prime numbers.";
+
     return 0;
 }
