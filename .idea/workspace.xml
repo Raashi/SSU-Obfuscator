@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dfc3ec04-facf-4c73-9bef-e6cdf9f4cf2c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/in.cpp.orig" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change beforePath="$PROJECT_DIR$/out.cpp" afterPath="$PROJECT_DIR$/out.cpp" />
-      <change beforePath="$PROJECT_DIR$/out.cpp.orig" afterPath="$PROJECT_DIR$/out.cpp.orig" />
-      <change beforePath="$PROJECT_DIR$/out.exe" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/samples/test1.cpp" afterPath="$PROJECT_DIR$/samples/test1.cpp" />
-      <change beforePath="$PROJECT_DIR$/samples/test1_sample.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/samples/test2.cpp" afterPath="$PROJECT_DIR$/samples/test2.cpp" />
-      <change beforePath="$PROJECT_DIR$/samples/test3.cpp" afterPath="$PROJECT_DIR$/samples/test3.cpp" />
-      <change beforePath="$PROJECT_DIR$/samples/test4.cpp" afterPath="$PROJECT_DIR$/samples/test4.cpp" />
-      <change beforePath="$PROJECT_DIR$/samples/test5.cpp" afterPath="$PROJECT_DIR$/samples/test5.cpp" />
-      <change beforePath="$PROJECT_DIR$/samples/test6.cpp" afterPath="$PROJECT_DIR$/samples/test6.cpp" />
-      <change beforePath="$PROJECT_DIR$/source/cinstructions.py" afterPath="$PROJECT_DIR$/source/cinstructions.py" />
-      <change beforePath="$PROJECT_DIR$/ТУДУ.txt" afterPath="$PROJECT_DIR$/ТУДУ.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,8 +23,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
-              <caret line="53" column="15" lean-forward="true" selection-start-line="53" selection-start-column="15" selection-end-line="53" selection-end-column="15" />
+            <state relative-caret-position="605">
+              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -500,8 +485,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="53" column="15" lean-forward="true" selection-start-line="53" selection-start-column="15" selection-end-line="53" selection-end-column="15" />
+        <state relative-caret-position="605">
+          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
