@@ -1,83 +1,41 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-#include <map>
+#include <cmath>
 
 using namespace std;
 
-vector <pair <string, bool> > sort_params;
-map <string, int> columns_m;
-
-vector <string> split(string input)
+int convertBinarytoOctal(long long binaryNumber)
 {
-    vector <string> result;
-    string s;
-    for (int i = 0; i < input.size(); ++i) 
-        if (input[i] == ' ') {
-            result.push_back(s);
-            s = "";
-        }
-        else
-            s = s + input[i];
-
-    result.push_back(s);
-
-    return result;
-}
-
-void split_sort(string input)
-{
-    vector<string> ss = split(input);
-    for (int i = 0; i < ss.size(); i += 2)
-    {
-        if (ss[i + 1] == "ASC" || ss[i + 1] == "ASC,")
-            sort_params.push_back(make_pair(ss[i], true));
-        else
-            sort_params.push_back(make_pair(ss[i], false));
-    }
-}
-
-bool comp(vector <string>& s1, vector <string>& s2)
-{
+    int octalNumber = 0; 
+    int decimalNumber = 0;
     int i = 0;
-    while (i < sort_params.size())
-        if (s1[columns_m[sort_params[i].first]] != s2[columns_m[sort_params[i].first]])
-            return ((s1[columns_m[sort_params[i].first]] < s2[columns_m[sort_params[i].first]]) == sort_params[i].second);
-        else
-            i++;
-    return false;
+
+    while(binaryNumber != 0)
+    {
+        decimalNumber += (binaryNumber%10) * pow(2,i);
+        ++i;
+        binaryNumber/=10;
+    }
+
+    i = 1;
+
+    while (decimalNumber != 0)
+    {
+        octalNumber += (decimalNumber % 8) * i;
+        decimalNumber /= 8;
+        i *= 10;
+    }
+
+    return octalNumber;
 }
 
 int main()
 {
-    string s;
-    getline(cin, s);
-    vector <string> columns = split(s);
+    long long binaryNumber;
 
-    for (int i = 0; i < columns.size(); ++i)
-        columns_m[columns[i]] = i;
+    cout << "Enter a binary number: ";
+    cin >> binaryNumber;
 
-    getline(cin, s);
-    split_sort(s);
-
-    vector <vector <string> > table;
-    while (cin)
-    {
-        getline(cin, s);
-        table.push_back(split(s));
-    }
-    table.pop_back();
-
-    sort(table.begin(), table.end(), comp);
-
-    for (int i = 0; i < table.size(); ++i)
-    {
-        for (int j = 0; j < table[i].size(); ++j)
-            cout << table[i][j] << ' ';
-        cout << endl;
-    }
+    cout << binaryNumber << " in binary = " << convertBinarytoOctal(binaryNumber) << " in octal ";
 
     return 0;
 }

@@ -2,6 +2,7 @@
 out.cpp
 out.exe
 *.orig
+*.tmp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

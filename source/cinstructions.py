@@ -302,42 +302,27 @@ def separate_func(script, idx_func_start: int):
     return idx + 1
 
 
-def separate_block(script: list, idx_block_start: int):
-    # рекурсивный костыль
-    if script[idx_block_start][-1] == ';':
-        return idx_block_start + 1
-    # поиск открывающей скобки
-    line = script[idx_block_start]
-    count_brackets = line.count('{')
-    idx = idx_block_start
+def automat(script: list, start: int):
+    blocks = ['if', 'for', 'while', 'else']
 
-    if '}' in line:  # i.e. definition is for (...) {}
-        return idx_block_start
-    new_line = script[idx_block_start + 1]
-    idx += 1
-    count_brackets += new_line.count('{')
+    if start >= len(script) - 1:
+        raise Exception('Неверный вызов автомата')
 
-    if 'if' in new_line:
-        return CIf.handle_separation(script, idx_block_start + 1)
-    if not count_brackets and (new_line == '{' or
-                               new_line[-1] == ';' or
-                               any(pattern in new_line for pattern in ['if', 'for', 'while', 'else'])):
-        return separate_block(script, idx_block_start + 1)  # рекурсия если конструкция простая (её блок - 1 строка)
-    if not count_brackets:
-        raise Exception('Не могу распарсить блок ' + script[idx_block_start])
+    idx = start + 1
+    line = script[idx]
+    brackets = line.count('{')
 
-    # поиск закрывающей скобки
-    while count_brackets:
+    while brackets or any(block in line for block in blocks):
         idx += 1
         line = script[idx]
-        count_brackets += line.count('{') - line.count('}')
-        if 'else' in line and '{' in line and count_brackets == 1:
-            return idx
+        brackets += line.count('{') - line.count('}')
 
-    if idx + 1 < len(script) and 'else' in script[idx + 1]:
-        return separate_block(script, idx + 1)
-
-    return idx + 1
+    idx += 1
+    # Скрипт закончился
+    if idx == len(script) or 'else' not in script[idx]:
+        return idx
+    else:  # Обработка else
+        return automat(script, idx)
 
 
 def parse_block(handler, lines: list):
@@ -350,19 +335,19 @@ def parse_block(handler, lines: list):
             parse_instruction(handler, line)
             idx += 1
         elif 'if' in line and 'else' not in line:
-            idx_block_end = separate_block(lines, idx)
+            idx_block_end = automat(lines, idx)
             CIf(handler, lines[idx:idx_block_end])
             idx = idx_block_end
         elif 'for' in line:
-            idx_block_end = separate_block(lines, idx)
+            idx_block_end = automat(lines, idx)
             CFor(handler, lines[idx:idx_block_end])
             idx = idx_block_end
         elif 'while' in line:
-            idx_block_end = separate_block(lines, idx)
+            idx_block_end = automat(lines, idx)
             CWhile(handler, lines[idx:idx_block_end])
             idx = idx_block_end
         elif 'else' in line:
-            idx_block_end = separate_block(lines, idx)
+            idx_block_end = automat(lines, idx)
             CIf.CElse(handler, lines[idx:idx_block_end])
             idx = idx_block_end
         else:

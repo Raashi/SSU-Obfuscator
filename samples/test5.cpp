@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdio>
 using namespace std;
 
 int calculatePower(int base, int powerRaised)

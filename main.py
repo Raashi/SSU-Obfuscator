@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.dirname(__file__)))
 
 FILENAME_IN = 'in.cpp'
 FILENAME_OUT = 'out.cpp'
-FILENAME_EXE = 'out.exe'
+FILENAME_TEMP = 'temp.cpp.tmp'
 
 
 def init_from_file(filename):
@@ -27,17 +27,25 @@ def init_vars():
     return parser.parse_args(sys.argv[1:])
 
 
+def beautify_file_in(filename):
+    with open(filename) as fin:
+        script = fin.read()
+    with open(FILENAME_TEMP, 'w') as fout:
+        fout.write(script)
+    os.popen('astyle {} -j -e -y -xe --style=allman'.format(FILENAME_TEMP))
+
+
 def main():
     # Парсинг аргументов
     namespace = init_vars()
-    # Считывание из файла
-    os.popen('astyle {} -j -e -y -xe'.format(namespace.fin))
-    script = init_from_file(namespace.fin)
+    # Считывание из файла (+ бьютифай)
+    beautify_file_in(namespace.fin)
+    script = init_from_file(FILENAME_TEMP)
     # Парсинг скрипта
     structure = source.parsing.ScriptStructure(script)
     # (;,,,,,,,,,,,,;)
-    deep_search_consts(structure)
-    deep_search_blocks(structure)
+    # deep_search_consts(structure)
+    # deep_search_blocks(structure)
 
     # Записываем в файл, тестируем, убираем мусор
     with open(namespace.fout, 'w') as f:

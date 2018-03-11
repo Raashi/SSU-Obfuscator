@@ -1,10 +1,16 @@
 #include <iostream>
 #include <cstdio>
+
 using namespace std;
 
 int main()
 {
-    int a[10][10], trans[10][10], r, c, i, j;
+    int a[10][10]; 
+    int trans[10][10]; 
+    int r;
+    int c;
+    int i;
+    int j;
 
     cout << "Enter rows and columns of matrix: ";
     cin >> r >> c;
