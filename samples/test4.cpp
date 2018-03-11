@@ -76,7 +76,4 @@ int main()
 	pyramyd_sort(h, n);
 
 	cout << counter << endl;
-
-	int a;
-	cin >> a;
 }

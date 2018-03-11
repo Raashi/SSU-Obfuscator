@@ -1,29 +1,26 @@
 import functools
 
-from source import *
 from source.ctypes import *
 
 
 class CVariable(CPrimitive):
     def __init__(self, handler: CPrimitive, line: str, arguments: list = None):
-        super().__init__(handler, arguments if arguments is not None else handler.struct().vars, line)
+        super().__init__(handler, arguments if arguments is not None else handler.vars, line)  # handler.struct().vars, line)
         line = line.replace(';', '').strip(CHARS_STRIP)
+        # Оставлю для отладки
+        self.line = line
 
         if '*' in line:
-            self.starred = True
-            line = line.replace('*', '')
+            raise Exception('НЕ ХОЧУ ЗВЕЗДОЧКИ')
         if '&' in line:
             self.dogged = True
             line = line.replace('&', '')
         if '=' in line:
-            self.value = self.strip_variable_part(line[line.index('=') + 1:].strip(CHARS_STRIP))
-            self.value = CExpression.refactor(self, self.value)
-            # сразу уберем из строки присвоение
+            self.value = line[line.index('=') + 1:].strip(CHARS_STRIP)
             line = line[:line.index('=')].strip(CHARS_STRIP)
         if '(' in line:
             # для vector<> - инициализация размера
-            self.arguments = line[line.rfind('('):line.rfind(')') + 1]
-            # уберём из строки эти скобки
+            self.arguments = '(' + subline_between(line, PARENTHESES) + ')'
             line = line[:line.index('(')].strip(CHARS_STRIP)
 
         # ВАЖНО
@@ -33,65 +30,33 @@ class CVariable(CPrimitive):
         # ВАЖНО
 
         line_type = line[:line.rfind(' ')].strip(CHARS_STRIP)
-        self.type = get_type(line_type)
-        # парсинг массивов
-        if self.type in C_CONTAINERS_POSSIBLE:
-            # вызываем парсер конкретного контейнера
-            self.type_array = C_CONTAINERS_PARSERS[self.type](line_type)
-            # парсим аргументы (для vector<>)
-            if hasattr(self, 'arguments'):
-                self.arguments = CExpression.refactor(self, self.arguments)
+        self.type = line_type
+        self.is_arr = find_type_matches(self.type, C_CONTAINERS_POSSIBLE)
 
-    def exclude_cont_assignment(self):
-        if not hasattr(self, 'type_array') or not hasattr(self, 'arguments'):
-            raise Exception('Плохой вызов')
-        arguments = list(map(lambda s: s.strip(CHARS_STRIP), self.arguments.split(',')))
-        if len(arguments) == 2:
-            return '{}.assign({}, {})'.format(self.name_messed, *arguments)
-        elif len(arguments) == 1:
-            return '{}.assign({}, {})'.format(self.name_messed, self.arguments, C_TYPES_DEFAULT[C_TYPES_POSSIBLE[self.type_array]])
-        else:
-            return ''
-
-    @staticmethod
-    def strip_variable_part(line: str):
-        for char_to_strip in CHARS_STRIP_VARIABLE:
-            line = line.replace(char_to_strip, '')
-        for struct_to_strip in STRUCTS_STRIP_VARIABLE:
-            if struct_to_strip in line:
-                line = line[:line.index(struct_to_strip)]
-        return line
-
-    def type_to_str(self):
-        if not hasattr(self, 'type_array'):
-            return self.type
-        else:
-            return C_CONTAINERS_TO_STR[self.type](self.type_array)
+        if hasattr(self, 'value'):
+            self.value = CExpression.refactor(self, self.value)
+        if hasattr(self, 'arguments'):
+            self.arguments = CExpression.refactor(self, self.arguments)
 
     def __str__(self):
-        result = self.type_to_str() + ' '
-        if hasattr(self, 'starred'):
-            result += '*'
+        result = self.type + ' '
         if hasattr(self, 'dogged'):
-            result += '&'
+            result += '& '
         result += self.name_messed
-        if hasattr(self, 'arguments'):
-            result += str(self.arguments)
         return result
 
     @staticmethod
     def is_var(line: str):
-        return ' ' in line and get_type(line.split(' ')[0])
+        line_stripped = line.strip(CHARS_STRIP)
+        return ' ' in line_stripped and get_type(line_stripped.split(' ')[0])
 
     @staticmethod
     def parse(handler: CPrimitive, line: str):
         var = CVariable(handler, line)
         if hasattr(var, 'value'):
             return '{} = {}'.format(var.name_messed, var.value)
-        elif not hasattr(var, 'type_array'):
-            return '{} = {}'.format(var.name_messed, C_TYPES_DEFAULT[C_TYPES_POSSIBLE[var.type]])
-        elif not (handler.struct() is handler) and hasattr(var, 'arguments'):
-            return var.exclude_cont_assignment()
+        elif var.is_arr and hasattr(var, 'arguments'):
+            return '{}{}'.format(var.name_messed, generic_arguments_str(var.arguments))
         else:
             return ''
 
@@ -161,10 +126,6 @@ class CFunction(CBlock):
 
 class CConstant:
     @staticmethod
-    def mess(handler, line: str):
-        return line
-
-    @staticmethod
     def is_constant(line: str):
         temp_line = line.strip(CHARS_STRIP + '()').lower()
         return (temp_line.count('"') == 2 or
@@ -233,11 +194,13 @@ class CExpression:
 
 
 class CIf(CBlock):
-    def __init__(self, handler: CPrimitive, lines: list):
+    def __init__(self, handler: CPrimitive, lines: list, else_idx):
         super().__init__(handler, handler.code, lines)
         self.exp = CExpression.refactor(self, subline_between(lines[0], ('(', ')')))
         self.has_else = []
-        parse_block(self, lines[1:])
+        parse_block(self, lines[1:else_idx])
+        if else_idx < len(lines):
+            CIf.CElse(self, lines[else_idx:])
 
     def __str__(self):
         result = 'if ({}) {}'.format(self.exp, super().__str__())
@@ -247,7 +210,7 @@ class CIf(CBlock):
 
     class CElse(CBlock):
         def __init__(self, handler: CPrimitive, lines: list):
-            super().__init__(handler, getattr(handler, 'has_else', None), lines)
+            super().__init__(handler, getattr(handler, 'has_else'), lines)
             if 'if' in lines[0]:
                 statement_if = lines[0][lines[0].index(' ') + 1:]
                 lines[0] = lines[0].replace(statement_if, '')
@@ -255,7 +218,7 @@ class CIf(CBlock):
             parse_block(self, lines[1:])
 
         def __str__(self):
-            return ' else ' + super().__str__()
+            return '\nelse ' + super().__str__()
 
     @staticmethod
     def handle_separation(lines: list, idx_block_end: int):
@@ -311,7 +274,9 @@ class CWhile(CBlock):
 def parse_instruction(handler, line: str):
     # парсим присвоение без заведения переменной
     if CVariable.is_var(line):
-        handler.code.append(CVariable.parse(handler, line) + ';')
+        parsed = CVariable.parse(handler, line) + ';'
+        if len(parsed) > 1:
+            handler.code.append(parsed)
     else:
         handler.code.append(CExpression.refactor(handler, line))
 
@@ -353,9 +318,10 @@ def separate_block(script: list, idx_block_start: int):
     new_line = script[idx_block_start + 1]
     idx += 1
     count_brackets += new_line.count('{')
+
     if not count_brackets and (new_line == '{' or
                                new_line[-1] == ';' or
-                               any(pattern in new_line for pattern in ['if', 'for', 'while'])):
+                               any(pattern in new_line for pattern in ['if', 'for', 'while', 'else'])):
         return separate_block(script, idx_block_start + 1)  # рекурсия если конструкция простая (её блок - 1 строка)
     if not count_brackets:
         raise Exception('Не могу распарсить блок ' + script[idx_block_start])
@@ -365,6 +331,8 @@ def separate_block(script: list, idx_block_start: int):
         idx += 1
         line = script[idx]
         count_brackets += line.count('{') - line.count('}')
+        if 'else' in line and '{' in line and count_brackets == 1:
+            return idx
 
     return idx + 1
 
@@ -378,10 +346,10 @@ def parse_block(handler, lines: list):
         if line[-1] == ';':
             parse_instruction(handler, line)
             idx += 1
-        elif 'if' in line and 'else' not in line:
+        elif 'if' in line:
             idx_block_end = separate_block(lines, idx)
             idx_block_end_true = CIf.handle_separation(lines, idx_block_end)
-            CIf(handler, lines[idx:idx_block_end_true])
+            CIf(handler, lines[idx:idx_block_end_true], idx_block_end - idx)
             idx = idx_block_end_true
         elif 'for' in line:
             idx_block_end = separate_block(lines, idx)
@@ -392,9 +360,6 @@ def parse_block(handler, lines: list):
             CWhile(handler, lines[idx:idx_block_end])
             idx = idx_block_end
         elif 'else' in line:
-            idx_block_end = separate_block(lines, idx)
-            idx_block_end_true = CIf.handle_separation(lines, idx_block_end)
-            CIf.CElse(handler, lines[idx:idx_block_end_true])
-            idx = idx_block_end_true
+            raise Exception('Больше никаких else здесь')
         else:
             idx += 1
