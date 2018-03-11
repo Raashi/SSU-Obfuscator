@@ -36,6 +36,9 @@ class ScriptStructure(CPrimitive):
             else:
                 continue
 
+        # Костыль для g++
+        self.includes.add('cstdio')
+
     def parse_define(self, line: str):
         self.defines.append(line)
 
