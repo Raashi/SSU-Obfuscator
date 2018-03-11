@@ -1,6 +1,6 @@
 *.exe
-*out.cpp
-*a.exe
+out.cpp
+a.exe
 *.orig
 *.tmp
 
