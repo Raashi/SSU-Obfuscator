@@ -1,104 +1,90 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <algorithm>
-#include <iostream>
-#include <vector>
 #include <cstdio>
-#include <map>
-#include <string>
+#include <vector>
+#include <iostream>
 
 using namespace std;
 
-vector <pair <string, bool> > N9209020;
-map <string, int> N5932750;
+int N3520662;
 
-vector<string> N2645886(string N4239644)
+void N3134766(vector<long> & N7786188,int N3653327,int N8878829,bool N4154605)
 
 {
-    vector <string> N5819251;
-    string N1549749;
-    int N1171895;
-    for (N1171895 = 0; N1171895 < N4239644.size(); ++N1171895)
+    while (N3653327 < N8878829)
     {
-        if (N4239644[N1171895] == ' ')
+        if (((2 * N3653327 + 1 < N8878829) && (2 * N3653327 + 2 < N8878829)))
         {
-            N5819251.push_back(N1549749);
-            N1549749 = "";
+            int N6502352;
+            if (N7786188[2 * N3653327 + 1] <= N7786188[2 * N3653327 + 2])
+            {
+                N6502352 = 2 * N3653327 + 2;
+            }
+            else
+            {
+                N6502352 = 2 * N3653327 + 1;
+            }
+            if (N7786188[N6502352] > N7786188[N3653327])
+            {
+                swap(N7786188[N3653327], N7786188[N6502352]);
+                N3653327 = N6502352;
+            }
+            else
+            {
+                break;
+            }
         }
         else
         {
-            N1549749 = N1549749 + N4239644[N1171895];
+            if (2 * N3653327 + 1 < N8878829)
+            {
+                if (N7786188[N3653327] < N7786188[2 * N3653327 + 1])
+                {
+                    swap(N7786188[N3653327], N7786188[2 * N3653327 + 1]);
+                    N3653327 = 2 * N3653327 + 1;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
         }
+        N3520662++;
     }
-    N5819251.push_back(N1549749);
-    return N5819251;
 };
-void N6258392(string N6401677)
+void N2366283(vector<long> & N0647437,int N8919159)
 
 {
-    vector<string> N2260273;
-    int N0510639;
-    N2260273 = N2645886(N6401677);
-    for (N0510639 = 0; N0510639 < N2260273.size(); N0510639 += 2)
+    int N7882135;
+    int N1803333;
+    for (N7882135 = N8919159 - 1; N7882135 >= 0; N7882135--)
     {
-        if (N2260273[N0510639 + 1] == "ASC" || N2260273[N0510639 + 1] == "ASC,")
-        {
-            N9209020.push_back(make_pair(N2260273[N0510639], true));
-        }
-        else
-        {
-            N9209020.push_back(make_pair(N2260273[N0510639], false));
-        }
+        N3134766(N0647437, N7882135, N8919159, false);
     }
-};
-bool N8784392(vector <string> & N8074544,vector <string> & N5003082)
-
-{
-    int N2445082;
-    N2445082 = 0;
-    while (N2445082 < N9209020.size())
+    N1803333 = N8919159;
+    while (N1803333 > 1)
     {
-        if (N8074544[N5932750[N9209020[N2445082].first]] != N5003082[N5932750[N9209020[N2445082].first]])
-        {
-            return ((N8074544[N5932750[N9209020[N2445082].first]] < N5003082[N5932750[N9209020[N2445082].first]]) == N9209020[N2445082].second);
-        }
-        else
-        {
-            N2445082++;
-        }
+        swap(N0647437[0], N0647437[N1803333 - 1]);
+        N1803333--;
+        N3134766(N0647437, 0, N1803333, true);
     }
-    return false;
 };
 int main()
 
 {
-    string N2679852;
-    vector <string> N7319280;
-    int N7499551;
-    vector <vector <string> > N4522822;
-    int N4548723;
-    getline(cin, N2679852);
-    N7319280 = N2645886(N2679852);
-    for (N7499551 = 0; N7499551 < N7319280.size(); ++N7499551)
+    long N1984846;
+    vector<long> N5673196;
+    int N5751017;
+    N3520662 = 0;
+    cin >> N1984846;
+    for (N5751017 = 0; N5751017 < N1984846; N5751017++)
     {
-        N5932750[N7319280[N7499551]] = N7499551;
+        long N2616357;
+        cin >> N2616357;
+        N5673196.push_back(N2616357);
     }
-    getline(cin, N2679852);
-    N6258392(N2679852);
-    while (cin)
-    {
-        getline(cin, N2679852);
-        N4522822.push_back(N2645886(N2679852));
-    }
-    N4522822.pop_back();
-    sort(N4522822.begin(), N4522822.end(), N8784392);
-    for (N4548723 = 0; N4548723 < N4522822.size(); ++N4548723)
-    {
-        int N9013719;
-        for (N9013719 = 0; N9013719 < N4522822[N4548723].size(); ++N9013719)
-        {
-            cout << N4522822[N4548723][N9013719] << ' ';
-        }
-        cout << endl;
-    }
-    return 0;
+    N2366283(N5673196, N1984846);
+    cout << N3520662 << endl;
 };

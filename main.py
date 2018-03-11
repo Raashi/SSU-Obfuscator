@@ -31,6 +31,7 @@ def main():
     # Парсинг аргументов
     namespace = init_vars()
     # Считывание из файла
+    os.popen('astyle {} -j -e -y -xe'.format(namespace.fin))
     script = init_from_file(namespace.fin)
     # Парсинг скрипта
     structure = source.parsing.ScriptStructure(script)

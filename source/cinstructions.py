@@ -334,6 +334,9 @@ def separate_block(script: list, idx_block_start: int):
         if 'else' in line and '{' in line and count_brackets == 1:
             return idx
 
+    if idx + 1 < len(script) and 'else' in script[idx + 1]:
+        return separate_block(script, idx + 1)
+
     return idx + 1
 
 
@@ -346,7 +349,7 @@ def parse_block(handler, lines: list):
         if line[-1] == ';':
             parse_instruction(handler, line)
             idx += 1
-        elif 'if' in line:
+        elif 'if' in line and 'else' not in line:
             idx_block_end = separate_block(lines, idx)
             CIf(handler, lines[idx:idx_block_end])
             idx = idx_block_end
@@ -360,7 +363,7 @@ def parse_block(handler, lines: list):
             idx = idx_block_end
         elif 'else' in line:
             idx_block_end = separate_block(lines, idx)
-            CIf.CElse(handler.code[-1], lines[idx:idx_block_end])
+            CIf.CElse(handler, lines[idx:idx_block_end])
             idx = idx_block_end
         else:
             idx += 1
