@@ -1,48 +1,48 @@
-#include <cstdio>
 #include <iostream>
+#include <cstdio>
 
 using namespace std;
 
-int N6105865;
-bool N8333933;
-int N5580966;
-int N0035591;
-bool N5351357;
+int N3698388;
+bool N5975786;
+int N4091257;
+int N5107470;
+bool N3593479;
 
-bool N9575033(int N8781480)
+bool N2919495(int N2199548)
 
 {
-    N8333933 = true;
-    for (N6105865 = 2; N6105865 <= N8781480/2; ++N6105865)
+    N5975786 = true;
+    for (N3698388 = 2; N3698388 <= N2199548/2; ++N3698388)
     {
-        if (N8781480 % N6105865 == 0)
+        if (N2199548 % N3698388 == 0)
         {
-            N8333933 = false;
+            N5975786 = false;
             break;
         }
     }
-    return N8333933;
+    return N5975786;
 };
 int main()
 
 {
-    N5351357 = false;
+    N3593479 = false;
     cout << "Enter a positive  integer: ";
-    cin >> N5580966;
-    for (N0035591 = 2; N0035591 <= N5580966/2; ++N0035591)
+    cin >> N4091257;
+    for (N5107470 = 2; N5107470 <= N4091257/2; ++N5107470)
     {
-        if (N9575033(N0035591))
+        if (N2919495(N5107470))
         {
-            if (N9575033(N5580966 - N0035591))
+            if (N2919495(N4091257 - N5107470))
             {
-                cout << N5580966 << " = " << N0035591 << " + " << N5580966-N0035591 << endl;
-                N5351357 = true;
+                cout << N4091257 << " = " << N5107470 << " + " << N4091257-N5107470 << endl;
+                N3593479 = true;
             }
         }
     }
-    if (!N5351357)
+    if (!N3593479)
     {
-        cout << N5580966 << " can't be expressed as sum of two prime numbers.";
+        cout << N4091257 << " can't be expressed as sum of two prime numbers.";
     }
     return 0;
 };
