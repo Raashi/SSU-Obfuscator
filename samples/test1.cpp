@@ -14,7 +14,8 @@ vector <string> split(string input)
 {
     vector <string> result;
     string s;
-    for (int i = 0; i < input.size(); ++i) if (input[i] == ' ') {
+    for (int i = 0; i < input.size(); ++i) 
+        if (input[i] == ' ') {
             result.push_back(s);
             s = "";
         }
@@ -51,11 +52,6 @@ bool comp(vector <string>& s1, vector <string>& s2)
 
 int main()
 {
-#ifdef _DEBUG
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-
     string s;
     getline(cin, s);
     vector <string> columns = split(s);

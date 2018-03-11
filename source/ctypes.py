@@ -10,11 +10,11 @@ C_CONTAINERS_POSSIBLE = {'vector', 'set', 'map', 'queue', 'pair'}
 
 
 def find_type_matches(line, types):
-    line_stripped = line.strip(CHARS_STRIP)
+    line_stripped = line.strip(CHARS_STRIP).split(' ')[0]
     if '<' in line_stripped:
         line_stripped = line_stripped[:line_stripped.index('<')].strip(CHARS_STRIP)
     for c_type in types:
-        if c_type in line_stripped:
+        if c_type == line_stripped:
             return c_type
     return None
 

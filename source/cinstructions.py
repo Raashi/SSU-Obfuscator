@@ -47,8 +47,7 @@ class CVariable(CPrimitive):
 
     @staticmethod
     def is_var(line: str):
-        line_stripped = line.strip(CHARS_STRIP)
-        return ' ' in line_stripped and get_type(line_stripped.split(' ')[0])
+        return ' ' in line and get_type(line.split(' ')[0])
 
     @staticmethod
     def parse(handler: CPrimitive, line: str):
@@ -164,7 +163,7 @@ class CExpression:
 
     @staticmethod
     def find_func(line: str, func_name):
-        return [m.start() for m in re.finditer(r'\b' + func_name + r'\b( *)\((.*)\)', line)]
+        return [m.start() for m in re.finditer(r'\b' + func_name + r'\b', line)]
 
     @staticmethod
     def replace_func(line: str, func: CFunction):
@@ -194,13 +193,11 @@ class CExpression:
 
 
 class CIf(CBlock):
-    def __init__(self, handler: CPrimitive, lines: list, else_idx):
+    def __init__(self, handler: CPrimitive, lines: list):
         super().__init__(handler, handler.code, lines)
         self.exp = CExpression.refactor(self, subline_between(lines[0], ('(', ')')))
         self.has_else = []
-        parse_block(self, lines[1:else_idx])
-        if else_idx < len(lines):
-            CIf.CElse(self, lines[else_idx:])
+        parse_block(self, lines[1:])
 
     def __str__(self):
         result = 'if ({}) {}'.format(self.exp, super().__str__())
@@ -221,7 +218,8 @@ class CIf(CBlock):
             return '\nelse ' + super().__str__()
 
     @staticmethod
-    def handle_separation(lines: list, idx_block_end: int):
+    def handle_separation(lines: list, idx: int):
+        idx_block_end = separate_block(lines, idx)
         if idx_block_end >= len(lines):
             return idx_block_end
         elif 'else' not in lines[idx_block_end]:
@@ -319,6 +317,8 @@ def separate_block(script: list, idx_block_start: int):
     idx += 1
     count_brackets += new_line.count('{')
 
+    if 'if' in new_line:
+        return CIf.handle_separation(script, idx_block_start + 1)
     if not count_brackets and (new_line == '{' or
                                new_line[-1] == ';' or
                                any(pattern in new_line for pattern in ['if', 'for', 'while', 'else'])):
@@ -348,9 +348,8 @@ def parse_block(handler, lines: list):
             idx += 1
         elif 'if' in line:
             idx_block_end = separate_block(lines, idx)
-            idx_block_end_true = CIf.handle_separation(lines, idx_block_end)
-            CIf(handler, lines[idx:idx_block_end_true], idx_block_end - idx)
-            idx = idx_block_end_true
+            CIf(handler, lines[idx:idx_block_end])
+            idx = idx_block_end
         elif 'for' in line:
             idx_block_end = separate_block(lines, idx)
             CFor(handler, lines[idx:idx_block_end])
@@ -360,6 +359,8 @@ def parse_block(handler, lines: list):
             CWhile(handler, lines[idx:idx_block_end])
             idx = idx_block_end
         elif 'else' in line:
-            raise Exception('Больше никаких else здесь')
+            idx_block_end = separate_block(lines, idx)
+            CIf.CElse(handler.code[-1], lines[idx:idx_block_end])
+            idx = idx_block_end
         else:
             idx += 1
