@@ -222,19 +222,6 @@ class CIf(CBlock):
         def __str__(self):
             return '\nelse ' + super().__str__()
 
-    @staticmethod
-    def handle_separation(lines: list, idx: int):
-        idx_block_end = separate_block(lines, idx)
-        if idx_block_end >= len(lines):
-            return idx_block_end
-        elif 'else' not in lines[idx_block_end]:
-            return idx_block_end
-        else:
-            idx_block_end_true = separate_block(lines, idx_block_end)
-            if idx_block_end_true < len(lines) and 'else' in lines[idx_block_end_true]:
-                idx_block_end_true = separate_block(lines, min(idx_block_end_true + 1, len(lines) - 1))
-            return idx_block_end_true
-
 
 class CFor(CBlock):
     def __init__(self, handler, lines):
