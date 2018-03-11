@@ -395,6 +395,6 @@ def parse_block(handler, lines: list):
             idx_block_end = separate_block(lines, idx)
             idx_block_end_true = CIf.handle_separation(lines, idx_block_end)
             CIf.CElse(handler, lines[idx:idx_block_end_true])
-            idx = idx_block_end
+            idx = idx_block_end_true
         else:
             idx += 1
