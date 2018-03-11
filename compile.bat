@@ -1,2 +1,4 @@
-C:\Programs\MinGW\bin\g++.exe out.cpp -o out.exe
-del *.orig
+main.py
+main.py out.cpp
+main.py out.cpp
+g++ out.cpp

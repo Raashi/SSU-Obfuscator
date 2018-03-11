@@ -5,7 +5,7 @@ from source.ctypes import *
 
 class CVariable(CPrimitive):
     def __init__(self, handler: CPrimitive, line: str, arguments: list = None):
-        super().__init__(handler, arguments if arguments is not None else handler.vars, line)  # handler.struct().vars, line)
+        super().__init__(handler, arguments if arguments is not None else handler.struct().vars, line)
         line = line.replace(';', '').strip(CHARS_STRIP)
         # Оставлю для отладки
         self.line = line
