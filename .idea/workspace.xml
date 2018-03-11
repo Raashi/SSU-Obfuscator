@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/source/cinstructions.py" line="159" mnemonic="1" />
+    <bookmark url="file://$PROJECT_DIR$/source/cinstructions.py" line="162" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dfc3ec04-facf-4c73-9bef-e6cdf9f4cf2c" name="Default" comment="" />
+    <list default="true" id="dfc3ec04-facf-4c73-9bef-e6cdf9f4cf2c" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/in.cpp" afterPath="$PROJECT_DIR$/in.cpp" />
+      <change beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
+      <change beforePath="$PROJECT_DIR$/samples/test3.cpp" afterPath="$PROJECT_DIR$/samples/test3.cpp" />
+      <change beforePath="$PROJECT_DIR$/samples/test4.cpp" afterPath="$PROJECT_DIR$/samples/test4.cpp" />
+      <change beforePath="$PROJECT_DIR$/source/__init__.py" afterPath="$PROJECT_DIR$/source/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/source/cinstructions.py" afterPath="$PROJECT_DIR$/source/cinstructions.py" />
+      <change beforePath="$PROJECT_DIR$/source/ctypes.py" afterPath="$PROJECT_DIR$/source/ctypes.py" />
+      <change beforePath="$PROJECT_DIR$/source/messing.py" afterPath="$PROJECT_DIR$/source/messing.py" />
+      <change beforePath="$PROJECT_DIR$/source/messing_utils.py" afterPath="$PROJECT_DIR$/source/messing_utils.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,42 +25,60 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/1__$main.coverage" NAME="main Coverage Results" MODIFIED="1520100595564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Simple_C_Obfuscator$main.coverage" NAME="main Coverage Results" MODIFIED="1520779813256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Simple_C_Obfuscator$main.coverage" NAME="main Coverage Results" MODIFIED="1520786595271" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
+      <file leaf-file-name="messing.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/messing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="605">
-              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+            <state relative-caret-position="1121">
+              <caret line="74" column="0" lean-forward="true" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cinstructions.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="cinstructions.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/source/cinstructions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
-              <caret line="301" column="18" lean-forward="false" selection-start-line="301" selection-start-column="18" selection-end-line="301" selection-end-column="18" />
+            <state relative-caret-position="175">
+              <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
-                <element signature="e#81#2117#0" expanded="false" />
-                <element signature="e#2149#4538#0" expanded="false" />
-                <element signature="e#4562#4874#0" expanded="false" />
-                <element signature="e#4900#6967#0" expanded="false" />
-                <element signature="e#6993#8509#0" expanded="false" />
-                <element signature="e#7998#8509#0" expanded="false" />
-                <element signature="e#8536#9557#0" expanded="false" />
-                <element signature="e#9586#9889#0" expanded="false" />
-                <element signature="e#9939#10211#0" expanded="false" />
-                <element signature="e#10266#10936#0" expanded="false" />
-                <element signature="e#10982#11519#0" expanded="false" />
-                <element signature="e#11565#12428#0" expanded="false" />
+                <element signature="e#81#2310#0" expanded="false" />
+                <element signature="e#4755#5067#0" expanded="false" />
+                <element signature="e#7377#8893#0" expanded="false" />
+                <element signature="e#8382#8893#0" expanded="false" />
+                <element signature="e#8920#9941#0" expanded="false" />
+                <element signature="e#9970#10273#0" expanded="false" />
+                <element signature="e#10323#10595#0" expanded="false" />
+                <element signature="e#10650#11320#0" expanded="false" />
+                <element signature="e#11366#11903#0" expanded="false" />
+                <element signature="e#11949#12812#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="491">
+              <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1083">
+              <caret line="62" column="23" lean-forward="true" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -65,7 +94,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>responseLine</find>
       <find>startPhase2</find>
       <find>requestLine(</find>
       <find>serverLineURL</find>
@@ -95,6 +123,7 @@
       <find>betwee</find>
       <find>parse</find>
       <find>CIf.CElse</find>
+      <find>reduce</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -108,14 +137,14 @@
         <option value="$PROJECT_DIR$/ctypes.py" />
         <option value="$PROJECT_DIR$/cinstructions.py" />
         <option value="$PROJECT_DIR$/source/messer.py" />
-        <option value="$PROJECT_DIR$/source/__init__.py" />
         <option value="$PROJECT_DIR$/source/cbasics.py" />
-        <option value="$PROJECT_DIR$/source/messing.py" />
-        <option value="$PROJECT_DIR$/source/messing_utils.py" />
         <option value="$PROJECT_DIR$/source/parsing.py" />
         <option value="$PROJECT_DIR$/source/ctypes.py" />
+        <option value="$PROJECT_DIR$/source/messing_utils.py" />
+        <option value="$PROJECT_DIR$/source/messing.py" />
         <option value="$PROJECT_DIR$/source/cinstructions.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/source/__init__.py" />
       </list>
     </option>
   </component>
@@ -217,7 +246,7 @@
       <module name="1. Обфускатор" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value=".\samples\test4.cpp" />
+      <option name="PARAMETERS" value=".\samples\test3.cpp" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -252,22 +281,22 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4252386" sideWeight="0.50625" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18663839" sideWeight="0.49375" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26723224" sideWeight="0.49375" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1484375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4135737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33510074" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -282,19 +311,11 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <default-breakpoints>
-        <breakpoint type="python-exception">
-          <properties notifyOnTerminate="true" exception="BaseException">
-            <option name="notifyOnTerminate" value="true" />
-          </properties>
-        </breakpoint>
-      </default-breakpoints>
-      <option name="time" value="358" />
+      <option name="time" value="365" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cinstructions.py" />
     <entry file="file://$PROJECT_DIR$/ctypes.py" />
     <entry file="file://$PROJECT_DIR$/cinstructions.py" />
     <entry file="file://$PROJECT_DIR$/ctypes.py" />
@@ -395,13 +416,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Вызовы функций.txt" />
-    <entry file="file://$PROJECT_DIR$/source/messing_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="43" lean-forward="false" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Programs/Python36/Lib/subprocess.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -416,63 +430,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/parsing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1311">
-          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/ctypes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="15" column="14" lean-forward="false" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#13#0" expanded="false" />
-            <element signature="e#1161#2725#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/messing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="101" column="12" lean-forward="true" selection-start-line="101" selection-start-column="12" selection-end-line="101" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/cinstructions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="301" column="18" lean-forward="false" selection-start-line="301" selection-start-column="18" selection-end-line="301" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-            <element signature="e#81#2117#0" expanded="false" />
-            <element signature="e#2149#4538#0" expanded="false" />
-            <element signature="e#4562#4874#0" expanded="false" />
-            <element signature="e#4900#6967#0" expanded="false" />
-            <element signature="e#6993#8509#0" expanded="false" />
-            <element signature="e#7998#8509#0" expanded="false" />
-            <element signature="e#8536#9557#0" expanded="false" />
-            <element signature="e#9586#9889#0" expanded="false" />
-            <element signature="e#9939#10211#0" expanded="false" />
-            <element signature="e#10266#10936#0" expanded="false" />
-            <element signature="e#10982#11519#0" expanded="false" />
-            <element signature="e#11565#12428#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/temp.cpp.tmp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -481,12 +438,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$USER_HOME$/.PyCharm2017.3/system/python_stubs/-391412504/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="605">
-          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+        <state relative-caret-position="164">
+          <caret line="5246" column="8" lean-forward="false" selection-start-line="5246" selection-start-column="8" selection-end-line="5246" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/messing_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/parsing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/ctypes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding>
+            <element signature="e#3112#3657#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1083">
+          <caret line="62" column="23" lean-forward="true" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="491">
+          <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/messing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1121">
+          <caret line="74" column="0" lean-forward="true" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/cinstructions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="165" column="0" lean-forward="true" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#81#2310#0" expanded="false" />
+            <element signature="e#4755#5067#0" expanded="false" />
+            <element signature="e#7377#8893#0" expanded="false" />
+            <element signature="e#8382#8893#0" expanded="false" />
+            <element signature="e#8920#9941#0" expanded="false" />
+            <element signature="e#9970#10273#0" expanded="false" />
+            <element signature="e#10323#10595#0" expanded="false" />
+            <element signature="e#10650#11320#0" expanded="false" />
+            <element signature="e#11366#11903#0" expanded="false" />
+            <element signature="e#11949#12812#0" expanded="false" />
           </folding>
         </state>
       </provider>

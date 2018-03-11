@@ -1,3 +1,5 @@
+from functools import reduce
+
 import source.parsing
 
 from source.messing_utils import *
@@ -53,10 +55,10 @@ def obfuscate_str(structure: source.parsing.ScriptStructure, s_source: str, s_fu
         structure.includes.add('vector')
     s_gen = get_rand_s(len(s_source))
     s_sorted = ''.join(sorted(s_gen))
-    arr = [ord(s_source[idx]) - ord(s_sorted[idx]) for idx in range(len(s_source))]
+    arr = [ord(s_source[idx]) ^ ord(s_sorted[idx]) for idx in range(len(s_source))]
 
     pattern = """
-string get_str(vector<int> v, string s) {
+string get_str(string v, string s) {
     for (int i = 0; i < v.size(); ++i)
         for (int j = i + 1; j < s.length(); ++j)
             if ((int)s[i] > (int)s[j]) {
@@ -66,12 +68,15 @@ string get_str(vector<int> v, string s) {
             }
     string result;
     for (int i = 0; i < v.size(); ++i)
-        result = result + (char)((int)s[i] + v[i]);
+        result = result + (char)((int)s[i] ^ (int)v[i]);
     return result;
 }
     """.split('\n')[1:-1]
 
+    pattern = list(map(lambda s: s.strip(CHARS_STRIP), pattern))
+
     if not OBFUSCATIONS['str']:
+        print('Функция добавлена:\n{}'.format('\n'.join(pattern)))
         structure.code.insert(0, CFunction(structure, pattern))
         str_obfuscator = structure.code.pop()
         OBFUSCATIONS['str'] = str_obfuscator.name_messed
@@ -79,31 +84,45 @@ string get_str(vector<int> v, string s) {
     # Костыль (нужен const char *)
     cast = '.c_str()' if 'scanf' in s_full or 'printf' in s_full else ''
 
-    return OBFUSCATIONS['str'] + '(' + str(arr).replace('[', '{').replace(']', '}') + ', "{}"){}'.format(s_gen, cast)
+    return OBFUSCATIONS['str'] + '("' + reduce(str.__add__, map(chr, arr)) + '", "{}"){}'.format(s_gen, cast)
+
+
+def get_name(name: str):
+    if '[' in name:
+        return name[:name.index('[')]
+    return name
 
 
 def obfuscate_single_exp(handler: CPrimitive, exp: str):
+    # print('Обфусцирую:\n{}'.format(exp))
+
     how, left, right = may_mess(exp)
     if how is None:
         return exp
 
-    new_name = CNames.gen_name()
+    new_function_name = CNames.gen_name()
     if how == 'ass':
-        return_type = str(CNames.NAMES_MESSED[left.strip()].type)
+        assert get_name(left.strip()) in CNames.NAMES_MESSED, '{} имени нет в словаре'.format(left.strip())
+        return_type = str(CNames.NAMES_MESSED[get_name(left.strip())].type)
         params, params_to_call, new_exp = get_vars_make_params(right)
         new_exp = 'return ' + new_exp
-        func_exp = left + ' = ' + new_name + '(' + params_to_call + ')'
+
+        kek, sign = split_by_equality(exp)
+        func_exp = left + ' ' + sign + ' ' + new_function_name + '(' + params_to_call + ')'
     elif how == 'full':
         params, params_to_call, new_exp = get_vars_make_params(exp)
-        func_exp = new_name + '(' + params_to_call + ')'
+        func_exp = new_function_name + '(' + params_to_call + ')'
         return_type = 'void'
 
     pattern = """
-{} {}({}) {{
+{} {}({}) 
+{{
     {}
 }}
-    """.format(return_type, new_name, params, new_exp)
+    """.format(return_type, new_function_name, params, new_exp)
     pattern = pattern.split('\n')[1:-1]
+
+    # print('Получившаяся функция:\n{}'.format('\n'.join(pattern)))
 
     struct = handler.struct()
     idx = struct.code.index(handler.func())
@@ -111,4 +130,7 @@ def obfuscate_single_exp(handler: CPrimitive, exp: str):
     func = struct.code.pop()
     new_name_func = func.name_messed
 
-    return func_exp.replace(new_name, new_name_func) + ';'
+    result = func_exp.replace(new_function_name, new_name_func) + ';'
+    # print('Получившееся выражение:\n{}'.format(result), end='\n\n')
+
+    return result

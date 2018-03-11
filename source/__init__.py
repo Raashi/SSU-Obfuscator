@@ -37,4 +37,33 @@ def init_alph():
     ALPHABET = result
 
 
+def split_by_equality(line: str):
+    signs = ['-', '+', '\\', '*']
+    for sign in signs:
+        if sign + '=' in line:
+            return line.split(sign + '='), sign + '='
+    return line.split('='), '='
+
+
+def check_and_replace(pattern: str, line: str, line_to_replace: str, new_line: str):
+    matches = [m.start() for m in re.finditer(pattern, line)]
+    res = line
+    for match in reversed(matches):
+        count_left = res[:match].count('"')
+        count_right = res[match:].count('"')
+        if count_left % 2 == 0 and count_right % 2 == 0:
+            res = res[:match] + new_line + res[match + len(line_to_replace):]
+    return res
+
+
+def check_for_consts_around(line: str, pattern: str):
+    matches = [m.start() for m in re.finditer(pattern, line)]
+    if not matches:
+        return None
+    match = matches[0]
+    count_left = line[:match].count('"')
+    count_right = line[match:].count('"')
+    return not (count_left % 2) and not (count_right % 2)
+
+
 init_alph()

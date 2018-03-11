@@ -1,15 +1,17 @@
 import re
 
+from source import *
 from source.ctypes import CNames
 from source.cinstructions import CExpression
 
 
 def may_mess(exp: str):
     s = exp.strip()
-    if list(re.finditer('^return (.+)', s)):
+    if check_for_consts_around(s, r'^return (.+)'):
         return None, None, None
-    if list(re.finditer('[^=]=[^=]', s)):
-        return 'ass', s[:s.index('=')].strip(), s[s.index('=') + 1:].strip()
+    if check_for_consts_around(s, r'[\+\*\\\-\b ]\=[^\=]'):
+        splitted, sign = split_by_equality(s)
+        return 'ass', splitted[0].strip(), splitted[1].strip()
     return 'full', exp, exp
 
 

@@ -1,12 +1,13 @@
 #include <iostream>
 #include <cstdio>
+#include <vector>
 
 using namespace std;
 
 int main()
 {
-    int a[10][10]; 
-    int trans[10][10]; 
+    vector<vector<int> > a(10, vector<int>(10)); 
+    vector<vector<int> > trans(10, vector<int>(10)); 
     int r;
     int c;
     int i;

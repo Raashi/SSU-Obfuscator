@@ -22,6 +22,9 @@ class CVariable(CPrimitive):
             # для vector<> - инициализация размера
             self.arguments = '(' + subline_between(line, PARENTHESES) + ')'
             line = line[:line.index('(')].strip(CHARS_STRIP)
+        if '[' in line:
+            self.arguments = '[' + subline_between(line, BRACKETS_SQUARE) + ']'
+            line = line[:line.index('[')].strip(CHARS_STRIP)
 
         # ВАЖНО
         self.name = line[line.rfind(' ') + 1:]
@@ -54,7 +57,7 @@ class CVariable(CPrimitive):
         var = CVariable(handler, line)
         if hasattr(var, 'value'):
             return '{} = {}'.format(var.name_messed, var.value)
-        elif var.is_arr and hasattr(var, 'arguments'):
+        elif var.is_arr and hasattr(var, 'arguments') and var.arguments[0] != '[':
             return '{}{}'.format(var.name_messed, generic_arguments_str(var.arguments))
         else:
             return ''
@@ -167,7 +170,8 @@ class CExpression:
 
     @staticmethod
     def replace_func(line: str, func: CFunction):
-        return re.sub(r'\b' + func.name + r'\b', func.name_messed, line)
+        # return re.sub(r'\b' + func.name + r'\b', func.name_messed, line)
+        return check_and_replace(r'\b' + func.name + r'\b', line, func.name, func.name_messed)
 
     @staticmethod
     def find_var(line: str, var_name: str):
@@ -175,7 +179,8 @@ class CExpression:
 
     @staticmethod
     def replace_var(line: str, var: CVariable):
-        return re.sub(r'\b' + var.name + r'\b', var.name_messed, line)
+        # return re.sub(r'\b' + var.name + r'\b', var.name_messed, line)
+        return check_and_replace(r'\b' + var.name + r'\b', line, var.name, var.name_messed)
 
     @staticmethod
     def get_string_const(line: str):

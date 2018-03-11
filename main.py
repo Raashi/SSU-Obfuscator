@@ -11,6 +11,8 @@ FILENAME_IN = 'in.cpp'
 FILENAME_OUT = 'out.cpp'
 FILENAME_TEMP = 'temp.cpp.tmp'
 
+ASTYLE = 'astyle {} -j -e -y -xe --style=allman'
+
 
 def init_from_file(filename):
     assert os.path.exists(filename), 'Файла {} не существует'.format(filename)
@@ -32,27 +34,30 @@ def beautify_file_in(filename):
         script = fin.read()
     with open(FILENAME_TEMP, 'w') as fout:
         fout.write(script)
-    os.popen('astyle {} -j -e -y -xe --style=allman'.format(FILENAME_TEMP))
+    os.popen(ASTYLE.format(FILENAME_TEMP))
 
 
 def main():
     # Парсинг аргументов
     namespace = init_vars()
+
     # Считывание из файла (+ бьютифай)
     beautify_file_in(namespace.fin)
     script = init_from_file(FILENAME_TEMP)
+
     # Парсинг скрипта
     structure = source.parsing.ScriptStructure(script)
+
     # (;,,,,,,,,,,,,;)
     # deep_search_consts(structure)
-    # deep_search_blocks(structure)
+    deep_search_blocks(structure)
 
     # Записываем в файл, тестируем, убираем мусор
     with open(namespace.fout, 'w') as f:
         f.write(str(structure))
 
     # Бьютифаер
-    os.popen('astyle.exe "{}"'.format(namespace.fout))
+    os.popen(ASTYLE.format(namespace.fout))
 
 
 if __name__ == '__main__':

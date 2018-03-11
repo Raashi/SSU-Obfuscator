@@ -90,7 +90,7 @@ class CBlock(CPrimitive):
         super().__init__(handler, cont, block[0])
 
     def __str__(self):
-        result = '\n{\n'
+        result = '{\n'
         for var in self.vars:
             result += str(var) + ';\n'
         for line in self.code:
