@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dfc3ec04-facf-4c73-9bef-e6cdf9f4cf2c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/1. Обфускатор.iml" afterPath="$PROJECT_DIR$/.idea/1. Обфускатор.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/source/messing_utils.py" afterPath="$PROJECT_DIR$/source/messing_utils.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,7 +23,7 @@
       <file leaf-file-name="messing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/messing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
+            <state relative-caret-position="1666">
               <caret line="98" column="27" lean-forward="false" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
@@ -38,11 +35,9 @@
       <file leaf-file-name="messing_utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/source/messing_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="111" lean-forward="false" selection-start-line="9" selection-start-column="111" selection-end-line="9" selection-end-column="111" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="34">
+              <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -50,8 +45,8 @@
       <file leaf-file-name="cinstructions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/cinstructions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="197" column="0" lean-forward="true" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
+            <state relative-caret-position="2244">
+              <caret line="197" column="0" lean-forward="false" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
               <folding>
                 <element signature="e#0#16#0" expanded="true" />
                 <element signature="e#81#2310#0" expanded="false" />
@@ -471,8 +466,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/source/cinstructions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="197" column="0" lean-forward="true" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
+        <state relative-caret-position="2244">
+          <caret line="197" column="0" lean-forward="false" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
             <element signature="e#81#2310#0" expanded="false" />
@@ -489,7 +484,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/source/messing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
+        <state relative-caret-position="1666">
           <caret line="98" column="27" lean-forward="false" selection-start-line="98" selection-start-column="27" selection-end-line="98" selection-end-column="27" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
@@ -499,11 +494,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/source/messing_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="111" lean-forward="false" selection-start-line="9" selection-start-column="111" selection-end-line="9" selection-end-column="111" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
