@@ -51,7 +51,7 @@ def main():
     # (;,,,,,,,,,,,,;)
     # deep_search_consts(structure)
     deep_search_blocks(structure)
-    # deep_search_gotos(structure)
+    deep_search_gotos(structure)
 
     # Записываем в файл, тестируем, убираем мусор
     with open(namespace.fout, 'w', encoding='utf-8') as f:

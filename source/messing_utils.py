@@ -2,7 +2,7 @@ import re
 
 from source import *
 from source.ctypes import CNames
-from source.cinstructions import CExpression, CLabel
+from source.cinstructions import *
 
 
 def may_mess(exp: str):
@@ -49,12 +49,30 @@ def get_vars_make_params(exp: str):
     return ', '.join(params), ','.join(params_to_call), exp
 
 
-def gather_code_with_labels(code: list):
+def gather_code_with_labels(handler: CBlock, code: list):
+    if len(code) == 1:
+        return [code]
+
     res = []
+    next_call = None
+
     for idx in range(len(code)):
         start = idx
         while idx < len(code) and isinstance(code[idx], CLabel):
             idx += 1
         idx += 1
-        res.append(code[start:idx])
-    print(res)
+
+        next_block = code[start:idx]
+        if next_call:
+            next_block.insert(0, next_call)
+
+        rand_name = CNames.gen_name()
+        new_label = CLabel(handler, 'goto {};'.format(rand_name))
+        CLabel.CLabelCall(handler, new_label, 'goto {};'.format(rand_name), next_block)
+
+        costyl = []
+        next_call = CLabel.CLabelCall(handler, new_label, '{}:'.format(rand_name), costyl)
+
+        res.append(next_block)
+
+    return res

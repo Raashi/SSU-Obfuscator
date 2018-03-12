@@ -139,19 +139,29 @@ class CConstant:
 
 class CLabel(CPrimitive):
     def __init__(self, handler: CBlock, line: str):
-        super().__init__(handler, handler.labels, line)
+        super().__init__(handler.func(), handler.labels, line)
 
         # ВАЖНО
         self.name = CLabel.extract_label_name(line)
         self.name_messed = CNames.mess_name(self)
         # ВАЖНО
 
+    class CLabelCall(CPrimitive):
+        def __init__(self, handler: CPrimitive, label, line: str, list_to_insert: list):
+            super().__init__(handler, list_to_insert, line)
+
+            self.line = line.replace(label.name, label.name_messed)
+            self.label = label
+
+        def __str__(self):
+            return self.line
+
     @staticmethod
     def extract_label_name(line: str):
         if line[:4] == 'goto':
             name = line.split(' ')[1][:-1]  # убираем точку с запятой
-        elif line.strip()[-1] == ':':
-            name = line[-1]
+        elif line[-1] == ':':
+            name = line[:-1]
         else:
             raise Exception('Данная строка не относится к goto: {}'.format(line))
         return name.strip()
@@ -165,8 +175,8 @@ class CLabel(CPrimitive):
         name = CLabel.extract_label_name(line)
         label = handler.get_label(name)
         if label is None:
-            CLabel(handler, line)
-        return CExpression.refactor(handler, line)
+            label = CLabel(handler, line)
+        CLabel.CLabelCall(handler, label, line, handler.code)
 
 
 class CExpression:
@@ -301,8 +311,8 @@ class CWhile(CBlock):
 def parse_instruction(handler, line: str):
     # парсим присвоение без заведения переменной
     if CLabel.is_label(line):
-        handler.code.append(CLabel.parse(handler, line))
-    if CVariable.is_var(line):
+        CLabel.parse(handler, line)
+    elif CVariable.is_var(line):
         parsed = CVariable.parse(handler, line) + ';'
         if len(parsed) > 1:
             handler.code.append(parsed)
@@ -362,7 +372,7 @@ def parse_block(handler, lines: list):
     while idx < len(lines):
         line = lines[idx]
 
-        if line[-1] == ';':
+        if line[-1] == ';' or line[-1] == ':':
             parse_instruction(handler, line)
             idx += 1
         elif 'if' in line and 'else' not in line:
