@@ -115,7 +115,7 @@ class CBlock(CPrimitive):
 class CNames:
     NAMES = set()
     NAMES_MESSED = {}
-    NAMES_MESSED_LENGTH = 7
+    NAMES_MESSED_LENGTH = 10
 
     @staticmethod
     def mess_name(handler: CPrimitive):

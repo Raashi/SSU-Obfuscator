@@ -50,13 +50,15 @@ def deep_search_gotos(handler: CPrimitive):
 
     if isinstance(handler, CBlock):
         code = gather_code_with_labels(handler, code)
-        indices = list(range(len(code)))
+        indices = list(range(1, len(code) - 1))
         shuffle(indices)
+        indices = [0] + indices + [len(code) - 1]
 
-        handler.code.clear()
-        for idx in indices:
-            for c_code in code[idx]:
-                handler.code.append(c_code)
+        if not (len(indices) == 2 and indices[0] == indices[1]):
+            handler.code.clear()
+            for idx in indices:
+                for c_code in code[idx]:
+                    handler.code.append(c_code)
 
     for c_code in handler.code:
         if isinstance(c_code, CBlock):
