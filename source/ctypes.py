@@ -87,10 +87,14 @@ class CPrimitive:
             result += s + (';\n' if s[-1] != ';' and s[-1] != '\n' else '')
         return result
 
+    def get_label(self, name: str):
+        return None if self.handler is None else self.handler.get_label(name)
+
 
 class CBlock(CPrimitive):
     def __init__(self, handler, cont: list, block: list):
         super().__init__(handler, cont, block[0])
+        self.labels = []
 
     def __str__(self):
         result = '{\n'
@@ -100,6 +104,12 @@ class CBlock(CPrimitive):
             result += str(line) + '\n'
         result += '}'
         return result
+
+    def get_label(self, name: str):
+        for label in self.labels:
+            if label.name == name:
+                return label
+        return None if self.handler is None else self.handler.get_label(name)
 
 
 class CNames:

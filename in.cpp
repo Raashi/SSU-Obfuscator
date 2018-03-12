@@ -28,6 +28,8 @@ int main()
     cout << "Enter a positive  integer: ";
     cin >> n;
 
+    goto x;
+
     for(i = 2; i <= n/2; ++i)
     {
         if (checkPrime(i))
@@ -39,6 +41,8 @@ int main()
             }
         }
     }
+
+    x:
 
     if (!flag)
       cout << n << " can't be expressed as sum of two prime numbers.";

@@ -2,12 +2,13 @@ import re
 
 from source import *
 from source.ctypes import CNames
-from source.cinstructions import CExpression
+from source.cinstructions import CExpression, CLabel
 
 
 def may_mess(exp: str):
     s = exp.strip()
-    if check_for_consts_around(s, r'^return (.+)') or check_for_consts_around(s.strip(CHARS_STRIP), r'^break'):
+    if check_for_consts_around(s, r'^return (.+)') or check_for_consts_around(s.strip(CHARS_STRIP), r'^break') or \
+            check_for_consts_around(s, r'^goto \b(\w+)\b$') or check_for_consts_around(s, r'^\b(\w+)\b:&'):
         return None, None, None
     if check_for_consts_around(s, r'[\+\*\\\-\b ]\=[^\=]'):
         splitted, sign = split_by_equality(s)
@@ -46,3 +47,14 @@ def get_vars_make_params(exp: str):
         exp = re.sub(r'\b' + var.name_messed + r'\b', new_name, exp)
 
     return ', '.join(params), ','.join(params_to_call), exp
+
+
+def gather_code_with_labels(code: list):
+    res = []
+    for idx in range(len(code)):
+        start = idx
+        while idx < len(code) and isinstance(code[idx], CLabel):
+            idx += 1
+        idx += 1
+        res.append(code[start:idx])
+    print(res)

@@ -1,3 +1,4 @@
+from random import shuffle
 from functools import reduce
 
 import source.parsing
@@ -41,6 +42,19 @@ def deep_search_blocks(handler: CPrimitive):
             deep_search_blocks(c_code)
         else:
             raise Exception('Непонятный участок кода')
+
+
+def deep_search_gotos(handler: CPrimitive):
+    code = handler.code.copy()
+
+    if handler.handler is not None:
+        code = gather_code_with_labels(code)
+        indices = list(range(len(code)))
+        shuffle(indices)
+
+    for c_code in handler.code:
+        if isinstance(c_code, CBlock):
+            deep_search_gotos(c_code)
 
 
 def get_rand_s(length: int):

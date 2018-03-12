@@ -137,12 +137,49 @@ class CConstant:
                 temp_line.isnumeric())
 
 
+class CLabel(CPrimitive):
+    def __init__(self, handler: CBlock, line: str):
+        super().__init__(handler, handler.labels, line)
+
+        # ВАЖНО
+        self.name = CLabel.extract_label_name(line)
+        self.name_messed = CNames.mess_name(self)
+        # ВАЖНО
+
+    @staticmethod
+    def extract_label_name(line: str):
+        if line[:4] == 'goto':
+            name = line.split(' ')[1][:-1]  # убираем точку с запятой
+        elif line.strip()[-1] == ':':
+            name = line[-1]
+        else:
+            raise Exception('Данная строка не относится к goto: {}'.format(line))
+        return name.strip()
+
+    @staticmethod
+    def is_label(line: str):
+        return line[:4] == 'goto' or line[-1] == ':'
+
+    @staticmethod
+    def parse(handler, line: str):
+        name = CLabel.extract_label_name(line)
+        label = handler.get_label(name)
+        if label is None:
+            CLabel(handler, line)
+        return CExpression.refactor(handler, line)
+
+
 class CExpression:
     SEPARATORS = ('+', '-', '/', '*', '==', '!=', '&&', '||', '=', ',', ';', '[', ']', '<<', '>>')
 
     @staticmethod
     def refactor(handler: CPrimitive, line: str):
         result = line
+        # Проверка на goto (костыль)
+        if line[:4] == 'goto':
+            goto_name = line[4:][:-1].strip()
+            goto_name_messed = handler.get_label(goto_name).name_messed
+            return 'goto {}'.format(goto_name_messed)
         # рефакторинг известных функций
         for name in CFunction.FUNCS_ALL:
             if CExpression.find_func(result, name):
@@ -263,6 +300,8 @@ class CWhile(CBlock):
 
 def parse_instruction(handler, line: str):
     # парсим присвоение без заведения переменной
+    if CLabel.is_label(line):
+        handler.code.append(CLabel.parse(handler, line))
     if CVariable.is_var(line):
         parsed = CVariable.parse(handler, line) + ';'
         if len(parsed) > 1:
