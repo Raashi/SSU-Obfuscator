@@ -1,3 +1,4 @@
+from random import shuffle
 from functools import reduce
 
 import source.parsing
@@ -33,14 +34,35 @@ def deep_search_consts(handler: CPrimitive):
 # ЭТУ ФИГНЮ В ПОСЛЕДНЮЮ ОЧЕРЕДЬ ЗАПУСКАТЬ
 def deep_search_blocks(handler: CPrimitive):
     code = handler.code.copy()
+
     for idx in range(len(code)):
         c_code = code[idx]
         if isinstance(c_code, str):
             handler.code[idx] = obfuscate_single_exp(handler, c_code)
         elif isinstance(c_code, CBlock):
             deep_search_blocks(c_code)
-        else:
+        elif not isinstance(c_code, CLabel.CLabelCall):
             raise Exception('Непонятный участок кода')
+
+
+def deep_search_gotos(handler: CPrimitive):
+    code = handler.code.copy()
+
+    if isinstance(handler, CBlock):
+        code = gather_code_with_labels(handler, code)
+        indices = list(range(1, len(code) - 1))
+        shuffle(indices)
+        indices = [0] + indices + [len(code) - 1]
+
+        if not (len(indices) == 2 and indices[0] == indices[1]):
+            handler.code.clear()
+            for idx in indices:
+                for c_code in code[idx]:
+                    handler.code.append(c_code)
+
+    for c_code in handler.code:
+        if isinstance(c_code, CBlock):
+            deep_search_gotos(c_code)
 
 
 def get_rand_s(length: int):
