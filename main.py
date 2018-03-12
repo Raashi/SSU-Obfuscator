@@ -53,7 +53,7 @@ def main():
     deep_search_blocks(structure)
 
     # Записываем в файл, тестируем, убираем мусор
-    with open(namespace.fout, 'w') as f:
+    with open(namespace.fout, 'w', encoding='utf-8') as f:
         f.write(str(structure))
 
     # Бьютифаер

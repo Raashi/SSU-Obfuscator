@@ -2,11 +2,11 @@ import random
 from source import *
 
 C_TYPES_POSSIBLE = {'void': False, 'int': int, 'long': int, 'long long': int, 'float': float, 'double': float,
-                    'string': str, 'bool': bool, 'char': 'char'}
+                    'bool': bool, 'char': 'char'}
 
 C_TYPES_DEFAULT = {int: 0, float: 0.0, bool: False, str: '""', 'char': "''"}
 
-C_CONTAINERS_POSSIBLE = {'vector', 'set', 'map', 'queue', 'pair'}
+C_CONTAINERS_POSSIBLE = {'vector', 'set', 'map', 'queue', 'pair', 'string'}
 
 
 def find_type_matches(line, types):
@@ -25,11 +25,14 @@ def get_type(line: str):
     return c_container or c_type
 
 
-def parse_generic(line: str):
-    c_type_vector = get_type(subline_between(line, BRACKETS_ANGLE))
-    if not c_type_vector:
-        raise Exception('Не смогла распарсить генерик')
-    return c_type_vector
+def get_container_type(line_type: str):
+    c_container = find_type_matches(line_type, C_CONTAINERS_POSSIBLE)
+    if not c_container:
+        return line_type
+    if line_type == 'string':
+        return 'char'
+    else:
+        return subline_between(line_type, BRACKETS_ANGLE)
 
 
 def generic_arguments_str(arguments):

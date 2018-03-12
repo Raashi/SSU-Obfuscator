@@ -58,17 +58,19 @@ def obfuscate_str(structure: source.parsing.ScriptStructure, s_source: str, s_fu
     arr = [ord(s_source[idx]) ^ ord(s_sorted[idx]) for idx in range(len(s_source))]
 
     pattern = """
-string get_str(string v, string s) {
+string get_str(string v, string s) 
+{
     for (int i = 0; i < v.size(); ++i)
         for (int j = i + 1; j < s.length(); ++j)
-            if ((int)s[i] > (int)s[j]) {
+            if ((int)s[i] > (int)s[j]) 
+            {
                 char c = s[i];
                 s[i] = s[j];
                 s[j] = c;
             }
     string result;
     for (int i = 0; i < v.size(); ++i)
-        result = result + (char)((int)s[i] ^ (int)v[i]);
+        result += string(1, (char)((int)s[i] ^ (int)v[i]));
     return result;
 }
     """.split('\n')[1:-1]
@@ -76,7 +78,6 @@ string get_str(string v, string s) {
     pattern = list(map(lambda s: s.strip(CHARS_STRIP), pattern))
 
     if not OBFUSCATIONS['str']:
-        print('Функция добавлена:\n{}'.format('\n'.join(pattern)))
         structure.code.insert(0, CFunction(structure, pattern))
         str_obfuscator = structure.code.pop()
         OBFUSCATIONS['str'] = str_obfuscator.name_messed
@@ -94,8 +95,6 @@ def get_name(name: str):
 
 
 def obfuscate_single_exp(handler: CPrimitive, exp: str):
-    # print('Обфусцирую:\n{}'.format(exp))
-
     how, left, right = may_mess(exp)
     if how is None:
         return exp
@@ -103,7 +102,11 @@ def obfuscate_single_exp(handler: CPrimitive, exp: str):
     new_function_name = CNames.gen_name()
     if how == 'ass':
         assert get_name(left.strip()) in CNames.NAMES_MESSED, '{} имени нет в словаре'.format(left.strip())
-        return_type = str(CNames.NAMES_MESSED[get_name(left.strip())].type)
+        left = left.strip(CHARS_STRIP)
+
+        variable = CNames.NAMES_MESSED[get_name(left.strip())]
+        return_type = get_container_type(variable.type) if '[' in left else variable.type
+
         params, params_to_call, new_exp = get_vars_make_params(right)
         new_exp = 'return ' + new_exp
 
@@ -122,8 +125,6 @@ def obfuscate_single_exp(handler: CPrimitive, exp: str):
     """.format(return_type, new_function_name, params, new_exp)
     pattern = pattern.split('\n')[1:-1]
 
-    # print('Получившаяся функция:\n{}'.format('\n'.join(pattern)))
-
     struct = handler.struct()
     idx = struct.code.index(handler.func())
     struct.code.insert(idx, CFunction(struct, pattern))
@@ -131,6 +132,5 @@ def obfuscate_single_exp(handler: CPrimitive, exp: str):
     new_name_func = func.name_messed
 
     result = func_exp.replace(new_function_name, new_name_func) + ';'
-    # print('Получившееся выражение:\n{}'.format(result), end='\n\n')
 
     return result
