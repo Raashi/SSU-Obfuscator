@@ -3,6 +3,8 @@ from random import shuffle
 from source.messing_utils import *
 from source.cinstructions import *
 
+from source.cconsts import *
+
 
 # НАДО БЫТЬ ОЧЕНЬ АККУРАТНЫМ СО ВСТАВКОЙ КОДА
 # ВСТАВКА В ТЕКУЩИЙ БЛОК КОДА - ОЧЕНЬ ОПАСНОЕ ДЕЛО
@@ -12,9 +14,10 @@ def deep_search_consts(handler: CPrimitive):
         c_code = code[idx]
         if isinstance(c_code, str):
             consts = CExpression.get_string_const(c_code)
-            for str_const in consts:
+            for str_const in reversed(consts):
                 c_const = c_code[str_const[0] + 1: str_const[1]]
-                c_code = c_code.replace('"' + c_const + '"', obfuscate_str(handler.struct(), c_const, c_code))
+                c_code = c_code[:str_const[0]] + obfuscate_str(handler.struct(), c_const, c_code) + c_code[str_const[1] + 1:]
+                # c_code = c_code.replace('"' + c_const + '"', obfuscate_str(handler.struct(), c_const, c_code))
             handler.code[idx] = c_code
         elif isinstance(c_code, CBlock):
             deep_search_consts(c_code)

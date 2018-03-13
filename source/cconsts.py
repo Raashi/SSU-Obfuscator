@@ -1,6 +1,5 @@
 import random
 
-from functools import reduce
 from source import *
 
 from source.parsing import ScriptStructure
@@ -14,26 +13,32 @@ OBFUSCATIONS = {
 
 
 def obfuscate_str(structure: ScriptStructure, s_source: str, s_full: str):
+    print('Обфусцирую: {}'.format(len(s_source)))
+
     if 'vector' not in structure.includes:
         structure.includes.add('vector')
-    s_gen = get_rand_s(len(s_source))
-    s_sorted = ''.join(sorted(s_gen))
-    arr = [ord(s_source[idx]) ^ ord(s_sorted[idx]) for idx in range(len(s_source))]
+    key = get_rand_s(len(s_source))
+    s_sorted = ''.join(sorted(key))
+    cryptogram = ''.join([chr(ord(s_source[idx]) + ord(s_sorted[idx])) for idx in range(len(s_source))])
+
+    print('Криптограмма: {}'.format(len(cryptogram)))
 
     pattern = """
-string get_str(string v, string s) 
+string get_str(string key, string crypto) 
 {
-    for (int i = 0; i < v.size(); ++i)
-        for (int j = i + 1; j < s.length(); ++j)
-            if ((int)s[i] > (int)s[j]) 
+    if (key.size() == crypto.size())
+        cout << "horosho" << endl;
+    for (int i = 0; i < key.size(); ++i)
+        for (int j = i + 1; j < key.size(); ++j)
+            if (key[i] > key[j]) 
             {
-                char c = s[i];
-                s[i] = s[j];
-                s[j] = c;
+                char c = key[i];
+                key[i] = key[j];
+                key[j] = c;
             }
     string result;
-    for (int i = 0; i < v.size(); ++i)
-        result += string(1, (char)((int)s[i] ^ (int)v[i]));
+    for (int i = 0; i < key.size(); ++i)
+        result += string(1, (char)((int)crypto[i] - (int)key[i]));
     return result;
 }
     """.split('\n')[1:-1]
@@ -48,7 +53,7 @@ string get_str(string v, string s)
     # Костыль (нужен const char *)
     cast = '.c_str()' if 'scanf' in s_full or 'printf' in s_full else ''
 
-    return OBFUSCATIONS['str'] + '("' + reduce(str.__add__, map(chr, arr)) + '", "{}"){}'.format(s_gen, cast)
+    return '{}("{}", "{}"){}'.format(OBFUSCATIONS['str'], key, cryptogram, cast)
 
 
 def get_rand_s(length: int):

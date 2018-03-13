@@ -55,8 +55,6 @@ def gather_code_with_labels(handler: CBlock, code: list):
 
     res = [[]]
 
-    print(handler.func().name)
-
     first_label = CLabel(handler, 'goto {};'.format(CNames.gen_name()))
     CLabel.CLabelCall(handler, first_label, 'goto {};'.format(first_label.name), res[0])
 

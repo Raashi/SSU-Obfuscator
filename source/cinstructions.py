@@ -226,12 +226,11 @@ class CExpression:
 
     @staticmethod
     def replace_var(line: str, var: CVariable):
-        # return re.sub(r'\b' + var.name + r'\b', var.name_messed, line)
         return check_and_replace(r'\b' + var.name + r'\b', line, var.name, var.name_messed)
 
     @staticmethod
     def get_string_const(line: str):
-        matches = [m.start() for m in re.finditer(r'\"([^\'\"]*)\"', line)]
+        matches = check_and_get(line, r'\"([^\"]*)\"')
         return [(match, line.index('"', match + 1)) for match in matches]
 
     @staticmethod

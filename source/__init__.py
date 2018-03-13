@@ -66,4 +66,15 @@ def check_for_consts_around(line: str, pattern: str):
     return not (count_left % 2) and not (count_right % 2)
 
 
+def check_and_get(line: str, pattern: str):
+    matches = [m.start() for m in re.finditer(pattern, line)]
+    res = []
+    for match in matches:
+        count_left = res[:match].count('"')
+        count_right = res[match:].count('"')
+        if count_left % 2 == 0 and count_right % 2 == 0:
+            res.append(match)
+    return res
+
+
 init_alph()
