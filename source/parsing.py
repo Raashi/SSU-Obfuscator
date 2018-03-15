@@ -86,7 +86,7 @@ class ScriptStructure(CPrimitive):
         # удаление комментариев
         ScriptStructure.delete_comments(script_local)
         # обрезание строк
-        script_local = list(map(lambda s: s.strip(CHARS_STRIP), script_local))
+        script_local = list(map(lambda s: s.strip(), script_local))
         # удаление пустых строк
-        script_local = list(filter(lambda s: s.strip(), script_local))
+        script_local = list(filter(lambda s: s, script_local))
         return script_local
