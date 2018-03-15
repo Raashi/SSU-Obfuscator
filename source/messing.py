@@ -21,7 +21,8 @@ def deep_search_consts(handler: CPrimitive):
         elif isinstance(c_code, CBlock):
             deep_search_consts(c_code)
         else:
-            raise Exception('Непонятный участок кода')
+            # raise Exception('Непонятный участок кода')
+            pass
 
 
 # ЭТУ ФИГНЮ В ПОСЛЕДНЮЮ ОЧЕРЕДЬ ЗАПУСКАТЬ

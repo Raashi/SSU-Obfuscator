@@ -51,7 +51,8 @@ def check_and_replace(pattern: str, line: str, line_to_replace: str, new_line: s
     for match in reversed(matches):
         count_left = res[:match].count('"')
         count_right = res[match:].count('"')
-        if count_left % 2 == 0 and count_right % 2 == 0:
+        # ЛЮТЫЙ КОСТЫЛЬ
+        if (count_left % 2 == 0 and count_right % 2 == 0) or "'" in line:
             res = res[:match] + new_line + res[match + len(line_to_replace):]
     return res
 

@@ -10,12 +10,14 @@ OBFUSCATIONS = {
     'bool': ''
 }
 
+FIELD = [33, 122, 89]
+
 
 def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
     handle_str_obfuscation(handler.struct())
 
     key_size = random.randrange(3, 6)
-    key = [random.randrange(5, 10) for _idx in range(key_size)]
+    key = [random.randrange(5, 19) for _idx in range(key_size)]
     key_extra = ""
     for v in key:
         v1, v2 = divide_for_2(v)
@@ -24,13 +26,18 @@ def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
 
     crypto = ""
     for idx in range(len(s_const)):
-        crypto += chr(ord(s_const[idx]) + key[idx % len(key)])
+        lel = ord(s_const[idx]) + key[idx % len(key)] - FIELD[0]
+        lel %= FIELD[2]
+        lel += FIELD[0]
+        crypto += chr(lel) if s_const[idx] != ' ' else ' '
 
-    crypto = crypto.replace('\\', ' ')
+    crypto = crypto.replace('\\', '|')
+    crypto = crypto.replace('"', '~')
 
     # Костыль (нужен const char *)
     cast = '.c_str()' if 'scanf' in s_full or 'printf' in s_full else ''
     calling = '{}("{}", "{}"){}'.format(OBFUSCATIONS['str'], crypto, key_extra, cast)
+
     return calling
 
 
@@ -56,10 +63,21 @@ string obfuscate_str(string crypto, string key)
     {{
         int a = key[(2 * i) % key.size()] - '0';
         int b = key[(2 * i + 1) % key.size()] - '0';
-        char z = crypto[i];
+        int z = (int)crypto[i];
+        if (crypto[i] == '|')
+            z = 92;
         if (crypto[i] == ' ')
-            z = '\\\\';
-        result += (char)((int)z - a - b);
+        {{
+            result = result + ' ';
+            continue;
+        }}
+        if (crypto[i] == '~')
+            z = 34;
+        int meh = (int)z;
+        meh = meh - 33 - a - b + 89;
+        meh = meh % 89;           
+        meh += 33;
+        result = result + (char)meh;
     }}
     return result;
 }}

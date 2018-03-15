@@ -8,7 +8,8 @@ from source.cinstructions import *
 def may_mess(exp: str):
     s = exp.strip()
     if check_for_consts_around(s, r'^return (.+)') or check_for_consts_around(s.strip(CHARS_STRIP), r'^break') or \
-            check_for_consts_around(s, r'^goto \b(\w+)\b$') or check_for_consts_around(s, r'^\b(\w+)\b:&'):
+            check_for_consts_around(s, r'^goto \b(\w+)\b$') or check_for_consts_around(s, r'^\b(\w+)\b:&') or \
+            check_for_consts_around(s, r'^continue'):
         return None, None, None
     if check_for_consts_around(s, r'[\+\*\\\-\b ]\=[^\=]'):
         splitted, sign = split_by_equality(s)
