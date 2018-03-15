@@ -76,19 +76,17 @@ class ScriptStructure(CPrimitive):
         return str_obfuscator
 
     @staticmethod
-    def delete_comments(script):
-        text = ''.join(script)
-        text = re.sub(r'/\*.*?\*/', r'', text, flags=re.DOTALL)
-        text = re.sub(r'//([^\n\t\r])+', r'', text)
-        return text.split('\n')
+    def delete_comments(script: list):
+        for idx in range(len(script)):
+            script[idx] = re.sub(r'//.+&', '', script[idx])
 
     @staticmethod
     def handle_inner_script(script) -> list:
         script_local = script if isinstance(script, list) else script.split('\n')
         # удаление комментариев
-        script_local = ScriptStructure.delete_comments(script_local)
+        ScriptStructure.delete_comments(script_local)
         # обрезание строк
         script_local = list(map(lambda s: s.strip(CHARS_STRIP), script_local))
         # удаление пустых строк
-        script_local = list(filter(lambda s: s, script_local))
+        script_local = list(filter(lambda s: s.strip(), script_local))
         return script_local

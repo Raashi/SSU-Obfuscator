@@ -1,10 +1,7 @@
 import random
-import functools
 
 from source import *
-
 from source.parsing import ScriptStructure
-from source.cinstructions import CFunction
 from source.ctypes import CPrimitive
 
 OBFUSCATIONS = {
@@ -14,20 +11,22 @@ OBFUSCATIONS = {
 }
 
 
-def obfuscate_str(handler: CPrimitive, s_const: str, s_full: str):
+def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
     handle_str_obfuscation(handler.struct())
 
-    key = [random.randrange(5, 19) for _idx in range(len(s_const) * 2)]
+    key_size = random.randrange(3, 6)
+    key = [random.randrange(5, 10) for _idx in range(key_size)]
     key_extra = ""
     for v in key:
-        v1 = random.randrange(v)
-        v2 = v - v1
+        v1, v2 = divide_for_2(v)
         key_extra += (str(v1))
         key_extra += (str(v2))
 
     crypto = ""
-    for c, k in zip(s_const, key):
-        crypto += chr(ord(c) + k)
+    for idx in range(len(s_const)):
+        crypto += chr(ord(s_const[idx]) + key[idx % len(key)])
+
+    crypto = crypto.replace('\\', ' ')
 
     # Костыль (нужен const char *)
     cast = '.c_str()' if 'scanf' in s_full or 'printf' in s_full else ''
@@ -46,19 +45,21 @@ def handle_str_obfuscation(structure: ScriptStructure):
     if OBFUSCATIONS['str']:
         return
 
+    if 'cstdlib' not in structure.includes:
+        structure.includes.add('cstdlib')
+
     pattern = """
-void obfuscate_str(string crypto, string key)
+string obfuscate_str(string crypto, string key)
 {{
     string result = "";
-    for (int i = 0; i < key.size(); i+=2)
+    for (int i = 0; i < crypto.size(); i++)
     {{
-        char a = key[i];
-        char b = key[i + 1];
-        string concat = "{}";
-        concat[0] = a;
-        concat[1] = b;
-        int c = stoi(concat);
-        result = result + (char)((int)crypto[i / 2] - c);
+        int a = key[(2 * i) % key.size()] - '0';
+        int b = key[(2 * i + 1) % key.size()] - '0';
+        char z = crypto[i];
+        if (crypto[i] == ' ')
+            z = '\\\\';
+        result += (char)((int)z - a - b);
     }}
     return result;
 }}
@@ -71,3 +72,10 @@ void obfuscate_str(string crypto, string key)
     OBFUSCATIONS['str'] = str_obfuscator.name_messed
 
 
+def divide_for_2(v: int):
+    v1 = random.randrange(min(v, 10))
+    v2 = v - v1
+    while v1 > 9 or v2 > 9:
+        v1 = random.randrange(min(v, 10))
+        v2 = v - v1
+    return v1, v2
