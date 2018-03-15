@@ -16,8 +16,7 @@ def deep_search_consts(handler: CPrimitive):
             consts = CExpression.get_string_const(c_code)
             for str_const in reversed(consts):
                 c_const = c_code[str_const[0] + 1: str_const[1]]
-                c_code = c_code[:str_const[0]] + obfuscate_str(handler.struct(), c_const, c_code) + c_code[str_const[1] + 1:]
-                # c_code = c_code.replace('"' + c_const + '"', obfuscate_str(handler.struct(), c_const, c_code))
+                c_code = c_code[:str_const[0]] + obfuscate_str(handler.struct(), c_code, c_const) + c_code[str_const[1] + 1:]
             handler.code[idx] = c_code
         elif isinstance(c_code, CBlock):
             deep_search_consts(c_code)
