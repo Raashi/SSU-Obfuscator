@@ -49,7 +49,7 @@ def main():
     structure = source.parsing.ScriptStructure(script)
 
     # (;,,,,,,,,,,,,;)
-    # deep_search_consts(structure)
+    deep_search_consts(structure)
     deep_search_blocks(structure)
     deep_search_gotos(structure)
 

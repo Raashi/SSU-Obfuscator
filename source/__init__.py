@@ -51,7 +51,8 @@ def check_and_replace(pattern: str, line: str, line_to_replace: str, new_line: s
     for match in reversed(matches):
         count_left = res[:match].count('"')
         count_right = res[match:].count('"')
-        if count_left % 2 == 0 and count_right % 2 == 0:
+        # ЛЮТЫЙ КОСТЫЛЬ
+        if (count_left % 2 == 0 and count_right % 2 == 0) or "'" in line:
             res = res[:match] + new_line + res[match + len(line_to_replace):]
     return res
 
@@ -64,6 +65,21 @@ def check_for_consts_around(line: str, pattern: str):
     count_left = line[:match].count('"')
     count_right = line[match:].count('"')
     return not (count_left % 2) and not (count_right % 2)
+
+
+def check_and_get(line: str, pattern: str):
+    matches = [m.start() for m in re.finditer(pattern, line)]
+    res = []
+    for match in matches:
+        count_left = line[:match].count('"')
+        count_right = line[match:].count('"')
+        if count_left % 2 == 0 and count_right % 2 == 0:
+            res.append(match)
+    return res
+
+
+def symbol_count(line: str, symbol: str):
+    return len(check_and_get(line, symbol))
 
 
 init_alph()

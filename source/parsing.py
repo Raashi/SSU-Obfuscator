@@ -9,14 +9,9 @@ class ScriptStructure(CPrimitive):
         self.includes = set()
         self.typedefs = []
 
-        idx = 0
-        # удаление комментариев
-        script = self.delete_comments(script)
-        # обрезание строк
-        script = list(map(lambda s: s.strip(CHARS_STRIP), script))
-        # удаление пустых строк
-        script = list(filter(lambda s: s, script))
+        script = ScriptStructure.handle_inner_script(script)
 
+        idx = 0
         while idx < len(script):
             line = script[idx]
             idx += 1
@@ -72,10 +67,26 @@ class ScriptStructure(CPrimitive):
             raise Exception('Не нашла запрошенную переменную')
         return result
 
+    def insert_func(self, script: list, idx: int):
+        # Создаем функцию и пихаем её в начало скрипта
+        self.code.insert(idx, CFunction(self, script))
+        # Так как конструктор функции запихнул её еще и в конец .code -> удалим её оттуда
+        str_obfuscator = self.code.pop()
+        # Возвращаем ссылку на созданную функцию
+        return str_obfuscator
+
     @staticmethod
-    def delete_comments(script):
-        text = ''.join(script)
-        pat = "/\*.*?\*/"
-        text = re.sub(pat, r'', text, flags=re.DOTALL)
-        text = re.sub(r'//([^\n\t\r])+', r'', text)
-        return text.split('\n')
+    def delete_comments(script: list):
+        for idx in range(len(script)):
+            script[idx] = re.sub(r'//.+&', '', script[idx])
+
+    @staticmethod
+    def handle_inner_script(script) -> list:
+        script_local = script if isinstance(script, list) else script.split('\n')
+        # удаление комментариев
+        ScriptStructure.delete_comments(script_local)
+        # обрезание строк
+        script_local = list(map(lambda s: s.strip(), script_local))
+        # удаление пустых строк
+        script_local = list(filter(lambda s: s, script_local))
+        return script_local

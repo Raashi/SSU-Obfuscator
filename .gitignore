@@ -3,9 +3,7 @@ out.cpp
 a.exe
 *.orig
 *.tmp
-misc.xml
-workspace.xml
-*.iml
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -10,8 +10,6 @@ class CVariable(CPrimitive):
         # Оставлю для отладки
         self.line = line
 
-        if '*' in line:
-            raise Exception('НЕ ХОЧУ ЗВЕЗДОЧКИ')
         if '&' in line:
             self.dogged = True
             line = line.replace('&', '')
@@ -226,12 +224,11 @@ class CExpression:
 
     @staticmethod
     def replace_var(line: str, var: CVariable):
-        # return re.sub(r'\b' + var.name + r'\b', var.name_messed, line)
         return check_and_replace(r'\b' + var.name + r'\b', line, var.name, var.name_messed)
 
     @staticmethod
     def get_string_const(line: str):
-        matches = [m.start() for m in re.finditer(r'\"([^\'\"]*)\"', line)]
+        matches = check_and_get(line, r'\"([^\"]*)\"')
         return [(match, line.index('"', match + 1)) for match in matches]
 
     @staticmethod
@@ -324,21 +321,20 @@ def separate_func(script, idx_func_start: int):
     # поиск открывающей скобки
     idx = idx_func_start
     line = script[idx]
-    count_brackets = line.count('{')
+    count_brackets = symbol_count(line, r'{')
 
-    if line.count('}') or count_brackets > 1:
+    if symbol_count(line, r'}') or count_brackets > 1:
         raise Exception('Не пойму как парсить такое определение функции: ' + line)
     if not count_brackets:
         idx += 1
         line = script[idx]
-        count_brackets = line.count('{')
-        if not count_brackets or line.count('}'):
-            raise Exception('Не могу найти начало функции ' + script[idx_func_start])
+        count_brackets = symbol_count(line, r'{')
     # поиск закрывающей скобки
     while count_brackets:
         idx += 1
         line = script[idx]
-        count_brackets += line.count('{') - line.count('}')
+        # count_brackets += line.count('{') - line.count('}')
+        count_brackets += symbol_count(line, r'{') - symbol_count(line, r'}')
 
     return idx + 1
 
