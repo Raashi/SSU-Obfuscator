@@ -17,12 +17,8 @@ def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
     handle_str_obfuscation(handler.struct())
 
     key_size = random.randrange(3, 6)
-    key = [random.randrange(5, 19) for _idx in range(key_size)]
-    key_extra = ""
-    for v in key:
-        v1, v2 = divide_for_2(v)
-        key_extra += (str(v1))
-        key_extra += (str(v2))
+    key = [random.randrange(2, 10) for _idx in range(key_size)]
+    key = [5]
 
     crypto = ""
     for idx in range(len(s_const)):
@@ -36,7 +32,7 @@ def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
 
     # Костыль (нужен const char *)
     cast = '.c_str()' if 'scanf' in s_full or 'printf' in s_full else ''
-    calling = '{}("{}", "{}"){}'.format(OBFUSCATIONS['str'], crypto, key_extra, cast)
+    calling = '{}("{}", "{}"){}'.format(OBFUSCATIONS['str'], crypto, ''.join(map(str, key)), cast)
 
     return calling
 
@@ -61,8 +57,7 @@ string obfuscate_str(string crypto, string key)
     string result = "";
     for (int i = 0; i < crypto.size(); i++)
     {{
-        int a = key[(2 * i) % key.size()] - '0';
-        int b = key[(2 * i + 1) % key.size()] - '0';
+        int a = key[i % key.size()] - '0';
         int z = (int)crypto[i];
         if (crypto[i] == '|')
             z = 92;
@@ -74,7 +69,7 @@ string obfuscate_str(string crypto, string key)
         if (crypto[i] == '~')
             z = 34;
         int meh = (int)z;
-        meh = meh - 33 - a - b + 89;
+        meh = meh - 33 - a + 89;
         meh = meh % 89;           
         meh += 33;
         result = result + (char)meh;
