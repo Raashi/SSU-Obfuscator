@@ -105,15 +105,41 @@ def obfuscate_int(struct: ScriptStructure, s_const: str):
     len1 = random.randint(1, m_len - 1)
     len2 = m_len - len1
     # Старшие
-    b2 = random.randint(len1 + len2, 15)
-    a2 = b2 - len2
+    b2 = random.randint(len1 + len2 - 1, 15)
+    a2 = b2 - len2 + 1
     # Младшие
     b1 = random.randint(len1 - 1, a2 - 1)
-    a1 = b1 - len1
+    a1 = b1 - len1 + 1
 
-    print(s_const, m_len, a1, b1, a2, b2)
+    crypto = []
+    # Конец
+    end_len = 15 - b2
+    for _idx in range(end_len):
+        crypto.append(random.getrandbits(1))
+    # Старшие
+    crypto.extend(get_bits(m, len1, m_len - 1))
+    # Между
+    between_len = a2 - b1 - 1
+    for _idx in range(between_len):
+        crypto.append(random.getrandbits(1))
+    # Младшие
+    crypto.extend(get_bits(m, 0, len1 - 1))
+    # Начало
+    begin_len = a1
+    for _idx in range(begin_len):
+        crypto.append(random.getrandbits(1))
 
-    return s_const
+    crypto = int(''.join(map(str, reversed(crypto))), 2)
+    calling = '{}({}, {}, {}, {}, {})'.format(OBFUSCATIONS['int'], crypto, a1, b1, a2, b2)
+
+    return calling
+
+
+def get_bits(v, a, b):
+    s = bin(v)[2:]
+    s = s[::-1]
+    s = s[a:b + 1]
+    return [int(bit) for bit in s]
 
 
 def handle_int_obfuscation(structure: ScriptStructure):
@@ -125,7 +151,22 @@ int obfuscate_int(int crypto, int a1, int b1, int a2, int b2)
 {
     int result = 0;
     
-    return crypto;
+    int m = crypto >> a1;
+    int mask1 = b1 - a1 + 1;
+    mask1 = (1 << (mask1)) - 1;
+    int lowers = 0;
+    lowers = crypto & mask1;
+    m = crypto >> a2;
+    mask1 = b2 - a2 + 1;
+    mask1 = (1 << (mask1)) - 1;
+    int highers = 0;
+    highers = crypto & mask1;
+    
+    result = highers;
+    result = result << (b1 - a1 + 1);
+    result = result + lowers;
+    
+    return result;
 }
 """
     # Обработка паттерна (пустые строки и т.п.)
