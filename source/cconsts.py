@@ -14,6 +14,9 @@ FIELD = [33, 123, 90]
 
 
 def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
+    if not s_const:
+        return '""'
+
     handle_str_obfuscation(handler.struct())
 
     key_size = random.randrange(3, 6)
@@ -59,7 +62,7 @@ string obfuscate_str(string crypto, string key)
     string result = "";
     for (int i = 0; i < crypto.size(); i++)
     {{
-        int a = key[i % key.size()] - '0';
+        int a = key[i % key.size()] - (char)48;
         int z = (int)crypto[i];
         if (crypto[i] == '|')
             z = 92;
@@ -113,33 +116,34 @@ def obfuscate_int(struct: ScriptStructure, s_const: str):
 
     crypto = []
     # Конец
-    end_len = 15 - b2
-    for _idx in range(end_len):
+    end_count = 15 - b2
+    for _idx in range(end_count):
         crypto.append(random.getrandbits(1))
     # Старшие
-    crypto.extend(get_bits(m, len1, m_len - 1))
+    crypto.extend(get_bits(m, len1, m_len - 1, m_len))
     # Между
     between_len = a2 - b1 - 1
     for _idx in range(between_len):
         crypto.append(random.getrandbits(1))
     # Младшие
-    crypto.extend(get_bits(m, 0, len1 - 1))
+    crypto.extend(get_bits(m, 0, len1 - 1, m_len))
     # Начало
     begin_len = a1
     for _idx in range(begin_len):
         crypto.append(random.getrandbits(1))
 
-    crypto = int(''.join(map(str, reversed(crypto))), 2)
+    crypto = int(''.join(map(str, crypto)), 2)
     calling = '{}({}, {}, {}, {}, {})'.format(OBFUSCATIONS['int'], crypto, a1, b1, a2, b2)
 
     return calling
 
 
-def get_bits(v, a, b):
+def get_bits(v, a, b, l):
     s = bin(v)[2:]
-    s = s[::-1]
-    s = s[a:b + 1]
-    return [int(bit) for bit in s]
+    while len(s) < l:
+        s = '0' + s
+    s = s[::-1][a:b + 1]
+    return [int(bit) for bit in reversed(s)]
 
 
 def handle_int_obfuscation(structure: ScriptStructure):
@@ -153,14 +157,14 @@ int obfuscate_int(int crypto, int a1, int b1, int a2, int b2)
     
     int m = crypto >> a1;
     int mask1 = b1 - a1 + 1;
-    mask1 = (1 << (mask1)) - 1;
+    mask1 = (1 << mask1) - 1;
     int lowers = 0;
-    lowers = crypto & mask1;
+    lowers = m & mask1;
     m = crypto >> a2;
     mask1 = b2 - a2 + 1;
-    mask1 = (1 << (mask1)) - 1;
+    mask1 = (1 << mask1) - 1;
     int highers = 0;
-    highers = crypto & mask1;
+    highers = m & mask1;
     
     result = highers;
     result = result << (b1 - a1 + 1);

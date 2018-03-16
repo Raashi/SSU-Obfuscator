@@ -21,7 +21,7 @@ int main()
     cout << "Enter power number(positive integer): ";
     cin >> powerRaised;
 
-    result = calculatePower(base, powerRaised);
+    result = calculatePower(base, powerRaised + 1);
     cout << base << "^" << powerRaised << " = " << result;
 
     return 0;
