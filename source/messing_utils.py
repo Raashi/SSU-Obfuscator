@@ -1,7 +1,3 @@
-import re
-
-from source import *
-from source.ctypes import CNames
 from source.cinstructions import *
 
 
