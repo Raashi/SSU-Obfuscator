@@ -94,3 +94,43 @@ def divide_for_2(v: int):
         v1 = random.randrange(min(v, 10))
         v2 = v - v1
     return v1, v2
+
+
+def obfuscate_int(struct: ScriptStructure, s_const: str):
+    handle_int_obfuscation(struct)
+
+    m = int(s_const)
+    m_len = max(len(bin(m)) - 2, 5)
+
+    len1 = random.randint(1, m_len - 1)
+    len2 = m_len - len1
+    # Старшие
+    b2 = random.randint(len1 + len2, 15)
+    a2 = b2 - len2
+    # Младшие
+    b1 = random.randint(len1 - 1, a2 - 1)
+    a1 = b1 - len1
+
+    print(s_const, m_len, a1, b1, a2, b2)
+
+    return s_const
+
+
+def handle_int_obfuscation(structure: ScriptStructure):
+    if OBFUSCATIONS['int']:
+        return
+
+    pattern = """
+int obfuscate_int(int crypto, int a1, int b1, int a2, int b2)
+{
+    int result = 0;
+    
+    return crypto;
+}
+"""
+    # Обработка паттерна (пустые строки и т.п.)
+    script = ScriptStructure.handle_inner_script(pattern)
+    # Создание и вставка функции в основной скрипт
+    int_obfuscator = structure.insert_func(script, 0)
+    # Занесём messed имя обфускатора в словарь обфускаторов
+    OBFUSCATIONS['int'] = int_obfuscator.name_messed

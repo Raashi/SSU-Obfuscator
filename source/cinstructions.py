@@ -232,6 +232,17 @@ class CExpression:
         return [(match, line.index('"', match + 1)) for match in matches]
 
     @staticmethod
+    def get_int_const(line: str):
+        matches = check_and_get(line, r'\b[0-9]+\b')
+        res = []
+        for match in matches:
+            idx = match
+            while line[idx].isnumeric():
+                idx += 1
+            res.append((match, idx))
+        return res
+
+    @staticmethod
     def get_constants(line: str):
         result = set()
         parts = split_multiple(line, CExpression.SEPARATORS)

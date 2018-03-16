@@ -13,15 +13,20 @@ def deep_search_consts(handler: CPrimitive):
     for idx in range(len(code)):
         c_code = code[idx]
         if isinstance(c_code, str):
-            consts = CExpression.get_string_const(c_code)
-            for str_const in reversed(consts):
-                c_const = c_code[str_const[0] + 1: str_const[1]]
-                c_code = c_code[:str_const[0]] + obfuscate_str(handler.struct(), c_code, c_const) + c_code[str_const[1] + 1:]
+            # строки
+            strings = CExpression.get_string_const(c_code)
+            for str_const in reversed(strings):
+                c_string = c_code[str_const[0] + 1: str_const[1]]
+                c_code = c_code[:str_const[0]] + obfuscate_str(handler.struct(), c_code, c_string) + c_code[str_const[1] + 1:]
+            # инты
+            ints = CExpression.get_int_const(c_code)
+            for int_const in reversed(ints):
+                c_int = c_code[int_const[0]: int_const[1]]
+                c_code = c_code[:int_const[0]] + obfuscate_int(handler.struct(), c_int) + c_code[int_const[1]:]
             handler.code[idx] = c_code
         elif isinstance(c_code, CBlock):
             deep_search_consts(c_code)
         else:
-            # raise Exception('Непонятный участок кода')
             pass
 
 
