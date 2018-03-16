@@ -10,7 +10,7 @@ OBFUSCATIONS = {
     'bool': ''
 }
 
-FIELD = [33, 122, 89]
+FIELD = [33, 123, 90]
 
 
 def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
@@ -18,7 +18,9 @@ def obfuscate_str(handler: CPrimitive, s_full: str, s_const: str):
 
     key_size = random.randrange(3, 6)
     key = [random.randrange(2, 10) for _idx in range(key_size)]
-    key = [5]
+
+    s_const = s_const.replace('|', '\\')
+    s_const = s_const.replace('~', '"')
 
     crypto = ""
     for idx in range(len(s_const)):
@@ -69,8 +71,8 @@ string obfuscate_str(string crypto, string key)
         if (crypto[i] == '~')
             z = 34;
         int meh = (int)z;
-        meh = meh - 33 - a + 89;
-        meh = meh % 89;           
+        meh = meh - 33 - a + 90;
+        meh = meh % 90;           
         meh += 33;
         result = result + (char)meh;
     }}
