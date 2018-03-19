@@ -63,17 +63,17 @@ string obfuscate_str(string crypto, string key)
     for (int i = 0; i < crypto.size(); i++)
     {{
         int a = key[i % key.size()] - (char)48;
-        int z = (int)crypto[i];
+        int zz = (int)crypto[i];
         if (crypto[i] == '|')
-            z = 92;
+            zz = 92;
         if (crypto[i] == ' ')
         {{
             result = result + ' ';
             continue;
         }}
         if (crypto[i] == '~')
-            z = 34;
-        int meh = (int)z;
+            zz = 34;
+        int meh = (int)zz;
         meh = meh - 33 - a + 90;
         meh = meh % 90;           
         meh += 33;

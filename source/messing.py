@@ -17,7 +17,8 @@ def deep_search_consts(handler: CPrimitive):
             strings = CExpression.get_string_const(c_code)
             for str_const in reversed(strings):
                 c_string = c_code[str_const[0] + 1: str_const[1]]
-                c_code = c_code[:str_const[0]] + obfuscate_str(handler.struct(), c_code, c_string) + c_code[str_const[1] + 1:]
+                c_code = c_code[:str_const[0]] + obfuscate_str(handler.struct(), c_code, c_string) + c_code[
+                                                                                                     str_const[1] + 1:]
             # инты
             ints = CExpression.get_int_const(c_code)
             for int_const in reversed(ints):

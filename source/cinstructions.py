@@ -199,28 +199,16 @@ class CExpression:
         return result
 
     @staticmethod
-    def find_system_calls(line: str):
-        matches = []
-        if '(' in line and ')' in line:
-            matches = [m.start() for m in re.finditer(r'(\w+)\((.*)\)', line)]
-            for match in matches:
-                idx_r = line.index('(', match)
-                call_name = line[match: idx_r]
-                print('Вызов ' + call_name)
-        return matches
-
-    @staticmethod
     def find_func(line: str, func_name):
         return [m.start() for m in re.finditer(r'\b' + func_name + r'\b', line)]
 
     @staticmethod
     def replace_func(line: str, func: CFunction):
-        # return re.sub(r'\b' + func.name + r'\b', func.name_messed, line)
         return check_and_replace(r'\b' + func.name + r'\b', line, func.name, func.name_messed)
 
     @staticmethod
     def find_var(line: str, var_name: str):
-        return [m.start() for m in re.finditer(r'\b' + var_name + r'\b', line)]
+        return check_and_get(line, r'\b' + var_name + r'\b')
 
     @staticmethod
     def replace_var(line: str, var: CVariable):
